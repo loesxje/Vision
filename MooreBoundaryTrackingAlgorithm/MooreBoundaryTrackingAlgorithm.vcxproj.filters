@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\code bij de opdracht beschrijving\allContoursTestprogramma.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="avansvisionlib\avansvisionlib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="allContours.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="allContoursTestprogramma.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

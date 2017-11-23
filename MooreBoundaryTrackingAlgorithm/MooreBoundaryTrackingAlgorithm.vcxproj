@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\code bij de opdracht beschrijving\allContoursTestprogramma.cpp" />
+    <ClCompile Include="allContoursTestprogramma.cpp" />
     <ClCompile Include="avansvisionlib\avansvisionlib.cpp" />
     <ClCompile Include="allContours.cpp" />
   </ItemGroup>

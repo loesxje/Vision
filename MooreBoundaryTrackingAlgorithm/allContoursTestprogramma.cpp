@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 	Mat box;
 
 	vector<Point> steps = { { -1,-1 },{ -1, 0 },{ -1, 1 },{ 0, 1 },{ 1, 1 },{ 1, 0 },{ 1, -1 },{ 0, -1 } }; //steps the object needs to make
-	for (int ii; ii < 9; ii++) {
+	for (int ii = 0; ii < 9; ii++) {
 		Point coordinates = (steps.at(ii).x + currentCell.x, steps.at(ii).y + currentCell.y);
 		box.at<int>(steps.at(ii)) = binaryImage.at<int>(coordinates);
 	}
