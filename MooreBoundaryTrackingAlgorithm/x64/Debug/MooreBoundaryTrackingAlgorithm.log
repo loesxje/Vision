@@ -1,0 +1,7 @@
+﻿  allContours.cpp
+c:\users\loes\dropbox\vision\visionc++adv\mooreboundarytrackingalgorithm\mooreboundarytrackingalgorithm\allcontours.cpp(1): fatal error C1083: Cannot open include file: 'opencv2/core/core.hpp': No such file or directory
+  avansvisionlib.cpp
+c:\users\loes\dropbox\vision\visionc++adv\mooreboundarytrackingalgorithm\mooreboundarytrackingalgorithm\avansvisionlib\avansvisionlib.h(10): fatal error C1083: Cannot open include file: 'opencv2/core/core.hpp': No such file or directory
+  allContoursTestprogramma.cpp
+c:\users\loes\dropbox\vision\visionc++adv\code bij de opdracht beschrijving\allcontourstestprogramma.cpp(9): fatal error C1083: Cannot open include file: 'opencv2/imgproc/imgproc.hpp': No such file or directory
+  Generating Code...
