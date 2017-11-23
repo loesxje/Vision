@@ -45,8 +45,8 @@ int main(int argc, char *argv[])
 
 	////////////////////////////////////////////////////////////////////////////////
 
+	namedWindow("Original", WINDOW_AUTOSIZE);
 	imshow("Original", gray_image);
-	waitKey(0);
 
 	/** ! Gebruik een region of interest voor de rummikub images **/
 	// Mat imageROI = gray_image(Rect(34, 28, 976, 82));

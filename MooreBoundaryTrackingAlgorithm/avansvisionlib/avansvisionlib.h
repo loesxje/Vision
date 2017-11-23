@@ -6,7 +6,7 @@
 //
 // Note: Students of Avans are free to use this library in projects and for own vision competence development. Others may ask permission to use it by means 
 // of sending an email to Jan Oostindie, i.e. jac.oostindie@avans.nl
-
+#pragma once
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv/cv.h>
@@ -131,13 +131,13 @@ void stretchImage(Mat m, _int16 minPixelValue, _int16 maxPixelValue);
 
 // func: shows a 16S image on the screen. All values mapped on the interval 0-255 
 /// pre: m is a 16S image (depth 16 bits, signed)
-void show16SImageStretch(Mat m, string windowTitle = "show16SImageStretch");
+void show16SImageStretch(Mat m, string windowTitle);
 
 
 // func: shows a 16S image on the screen. All values clipped to the interval 0-255
 // i.e. value < 0 => 0; 0 <= value <= 255 => value ; value > 255 => 255 
 /// pre: m is a 16S image (depth 16 bits, signed)
-void show16SImageClip(Mat m, string windowTitle = "show16SImageClip");
+void show16SImageClip(Mat m, string windowTitle);
 
 
 
@@ -227,7 +227,8 @@ int labelBLOBs(Mat binaryImage, Mat & labeledImage);
 //       areaVec: contains all area's of the blobs. The index corresponds to the number
 //       of the blobs. Index 0 has no meaning.
 // return_value: the total number of objects.  
+// threshAreaMin = 1, threshAreaMax = INT_MAX <-deze parameters zo meegeven!
 int labelBLOBsInfo(Mat binaryImage, Mat & labeledImage,
 	vector<Point2d *> & firstpixelVec, vector<Point2d *> & posVec,
 	vector<int> & areaVec,
-	int threshAreaMin = 1, int threshAreaMax = INT_MAX);
+	int threshAreaMin, int threshAreaMax);

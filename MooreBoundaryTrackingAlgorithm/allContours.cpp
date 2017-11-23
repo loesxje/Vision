@@ -114,11 +114,13 @@ Point clockwise(Point &currentCell, Mat binaryImage, Point &moorePoint) {
 		Point step = determinePath(mooreNr + mooreIteration, moorePoint, currentCell);
 
 		coordinateB = currentCell + step;
+		/*
 		if (coordinateB == Point(209,108)) {
 			cout << "Hiero" << endl;
 		}
+		*/
 		if (binaryImage.at<__int16>(coordinateB) == 1) {
-			
+		
 			return coordinateB;
 			break;
 			
@@ -130,14 +132,28 @@ Point clockwise(Point &currentCell, Mat binaryImage, Point &moorePoint) {
 
 int allContours(Mat binaryImage, vector<vector<Point>> &contours) {
 	// Find number of BLOBs to determine number of rows in matrix contours
-	int numBlobs = labelBLOBs(binaryImage, binaryImage);
+	vector<Point2d*> firstPixelVec;
+	vector<Point2d*> posVec;
+	vector<int> areaVec;
+
+	int numBlobs = labelBLOBsInfo(binaryImage, binaryImage, firstPixelVec, posVec, areaVec, 1, INT_MAX);
+
+			//int numBlobs = labelBLOBs(binaryImage, binaryImage);
 
 	// For each blob, determine contour coordinates
 	for (int N = 0; N < numBlobs; N++) 
 	{
 		vector<Point> rowContours;
 
+	
 		// find first cell where the moore algorithm needs to start
+			// --------------------------------------------------- I GOT THIS FAR --------------------------------------------------
+			// The main idea here is, is that we use the firstPixelVec from labelBLOBsInfo to get the firstCell for every different
+			// BLOB. With these, we should be able to draw the different contours.
+			// The fault here though is in ?classes? (point2d, point, double, etc)
+		Point<double> firstCell = &firstPixelVec[N];
+		Point currentCell;
+		/*
 		Point firstCell;
 		bool firstFound{ false };
 		Point currentCell;
@@ -161,9 +177,13 @@ int allContours(Mat binaryImage, vector<vector<Point>> &contours) {
 				break;
 			}
 		}
+		*/
+
+
+
 		// find contourpixel per iteration
 		int ii{ 0 };
-		Point moorePoint = firstCell + Point(-1,0);
+		Point moorePoint = firstCell + Point2d(-1,0);
 		while(currentCell != firstCell ) {
 			if (ii == 0) {
 				currentCell = firstCell;
