@@ -1,3 +1,9 @@
 ﻿  allContoursTestprogramma.cpp
-  MooreBoundaryTrackingAlgorithm.vcxproj -> C:\Users\Loes\Documents\GitHub\Vision2\x64\Debug\MooreBoundaryTrackingAlgorithm.exe
-  MooreBoundaryTrackingAlgorithm.vcxproj -> C:\Users\Loes\Documents\GitHub\Vision2\x64\Debug\MooreBoundaryTrackingAlgorithm.pdb (Partial PDB)
+c:\users\loes\documents\github\vision2\mooreboundarytrackingalgorithm\avansvisionlib\avansvisionlib.h(134): error C2572: 'show16SImageStretch': redefinition of default argument: parameter 1
+  c:\users\loes\documents\github\vision2\mooreboundarytrackingalgorithm\avansvisionlib.h(134): note: see declaration of 'show16SImageStretch'
+c:\users\loes\documents\github\vision2\mooreboundarytrackingalgorithm\avansvisionlib\avansvisionlib.h(140): error C2572: 'show16SImageClip': redefinition of default argument: parameter 1
+  c:\users\loes\documents\github\vision2\mooreboundarytrackingalgorithm\avansvisionlib.h(140): note: see declaration of 'show16SImageClip'
+c:\users\loes\documents\github\vision2\mooreboundarytrackingalgorithm\avansvisionlib\avansvisionlib.h(233): error C2572: 'labelBLOBsInfo': redefinition of default argument: parameter 1
+  c:\users\loes\documents\github\vision2\mooreboundarytrackingalgorithm\avansvisionlib.h(230): note: see declaration of 'labelBLOBsInfo'
+c:\users\loes\documents\github\vision2\mooreboundarytrackingalgorithm\avansvisionlib\avansvisionlib.h(233): error C2572: 'labelBLOBsInfo': redefinition of default argument: parameter 2
+  c:\users\loes\documents\github\vision2\mooreboundarytrackingalgorithm\avansvisionlib.h(230): note: see declaration of 'labelBLOBsInfo'

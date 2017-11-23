@@ -29,5 +29,8 @@
     <ClInclude Include="avansvisionlib\avansvisionlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="allContours.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string>
 #include "avansvisionlib.h"
+#include "allContours.h"
 
 using namespace cv;
 using namespace std;
@@ -74,42 +75,50 @@ int main(int argc, char *argv[])
 	Point currentCell = firstCell;
 	Mat box;
 
+	/*
 	vector<Point> steps = { { -1,-1 },{ -1, 0 },{ -1, 1 },{ 0, 1 },{ 1, 1 },{ 1, 0 },{ 1, -1 },{ 0, -1 } }; //steps the object needs to make
 	for (int ii = 0; ii < 9; ii++) {
 		Point coordinates = (steps.at(ii).x + currentCell.x, steps.at(ii).y + currentCell.y);
 		box.at<int>(steps.at(ii)) = binaryImage.at<int>(coordinates);
 	}
+	*/
+
 	// haal de contouren uit het binary image
-	//vector<vector<Point>> contours;
-	//cout << "Contouren bepalen...";
-	//int aantal = allContours(binary16S, contours);  // <<<<*** De opdracht is dus om deze functie te maken ***
+	vector<vector<Point>> contours;
+	cout << "Contouren bepalen...";
+	int aantal = allContours(binary16S, contours);  // <<<<*** De opdracht is dus om deze functie te maken ***
 
-	//// druk alle punten van alle gevonden contouren af
-	//string line;
-	//cout << "Aantal gevonden contouren = " << contours.size() << endl;
-	//getline(cin, line);
-	//for (int i = 0; i < contours.size(); i++) {
-	//	cout << "*** Contour " << i + 1 << " ***" << endl;
-	//	cout << "Press ENTER to continue....";
-	//	getline(cin, line);
-	//	for (int j = 0; j < contours[i].size(); j++) {
-	//		cout << "(" << contours[i][j].x << "," << contours[i][j].y << ")" << endl;
-	//	}		
-	//}
+	// druk alle punten van alle gevonden contouren af
+	string line;
+	cout << "Aantal gevonden contouren = " << contours.size() << endl;
+	getline(cin, line);
+	for (int i = 0; i < contours.size(); i++) {
+		cout << "*** Contour " << i + 1 << " ***" << endl;
+		cout << "Press ENTER to continue....";
+		getline(cin, line);
+		for (int j = 0; j < contours[i].size(); j++) {
+			cout << "(" << contours[i][j].x << "," << contours[i][j].y << ")" << endl;
+		}		
+	}
 
-	//// Creeer een witte image
+	// Creeer een witte image
 	//Mat contourImage = cvCreateImage(cvSize(binary16S.cols, binary16S.rows), IPL_DEPTH_8U, 3);
 	//contourImage = Scalar(255, 255, 255);
 
-	//// teken de contouren op de witte image
-	//drawContours(contourImage, contours, -1, CV_RGB(255, 0, 0));
+	IplImage* iplimage = cvCreateImage(cvSize(binary16S.cols, binary16S.rows), IPL_DEPTH_8U, 3);
+	Mat contourImage = cvarrToMat(iplimage);
+	contourImage = Scalar(255, 255, 255);
 
-	//// druk het image met de contouren af
-	//imshow("Found contours", contourImage);
-	//waitKey(0);
 
-	//string pipo;
-	//cin >> pipo;
+	// teken de contouren op de witte image
+	drawContours(contourImage, contours, -1, CV_RGB(255, 0, 0));
+
+	// druk het image met de contouren af
+	imshow("Found contours", contourImage);
+	waitKey(0);
+
+	string pipo;
+	cin >> pipo;
 
 	return 0;
 }

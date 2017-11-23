@@ -101,7 +101,6 @@ int determineMooreNr(Point moorePoint, Point currentCell) {
 	return mooreNr;
 }
 
-
 Point clockwise(Point &currentCell, Mat binaryImage, Point &moorePoint) {
 	//determine mooreNr 
 	
@@ -128,8 +127,6 @@ Point clockwise(Point &currentCell, Mat binaryImage, Point &moorePoint) {
 
 	return -1;
 }
-
-
 
 int allContours(Mat binaryImage, vector<vector<Point>> &contours) {
 	// Find number of BLOBs to determine number of rows in matrix contours
