@@ -16,6 +16,7 @@
 using namespace cv;
 using namespace std;
 
+//Het is belangrijk dat de path naar plaatjes "C:\VisionPlaatje\testImages" is
 
 int main(int argc, char *argv[])
 {
@@ -70,10 +71,6 @@ int main(int argc, char *argv[])
 	binaryImage.convertTo(binary16S, CV_16S);
 
 	show16SImageStretch(binary16S,"Binary image");
-
-	Point firstCell{ -1, -1 };
-	Point currentCell = firstCell;
-	Mat box;
 
 	/*
 	vector<Point> steps = { { -1,-1 },{ -1, 0 },{ -1, 1 },{ 0, 1 },{ 1, 1 },{ 1, 0 },{ 1, -1 },{ 0, -1 } }; //steps the object needs to make

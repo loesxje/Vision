@@ -18,7 +18,7 @@ Point determinePath(int mooreIteration, Point &moorePoint, Point currentCell) {
 	switch (mooreNr) {//steps the object needs to make
 	case(0): {
 		step = { -1, 0 };
-		moorePoint = currentCell + Point{-1, 1};
+		moorePoint = currentCell + Point{ -1, 1 };
 		break;
 	}
 	case(1): {
@@ -38,17 +38,17 @@ Point determinePath(int mooreIteration, Point &moorePoint, Point currentCell) {
 	}
 	case(4): {
 		step = { 1, 0 };
-		moorePoint = currentCell + Point{ 1,-1 };
+		moorePoint = currentCell + Point{ 1, -1 };
 		break;
 	}
 	case(5): {
 		step = { 1, 1 };
-		moorePoint = currentCell + Point{ 1,0 };
+		moorePoint = currentCell + Point{ 1, 0 };
 		break;
 	}
 	case(6): {
 		step = { 0, 1 };
-		moorePoint = currentCell + Point{ 1,1 };
+		moorePoint = currentCell + Point{ 1, 1 };
 		break;
 	}
 	case(7): {
@@ -114,11 +114,11 @@ Point clockwise(Point &currentCell, Mat binaryImage, Point &moorePoint) {
 		Point step = determinePath(mooreNr + mooreIteration, moorePoint, currentCell);
 
 		coordinateB = currentCell + step;
-		/*
-		if (coordinateB == Point(209,108)) {
-			cout << "Hiero" << endl;
-		}
-		*/
+		
+		//if (coordinateB.x == 77) {
+		//	cout << "Hiero" << endl;
+		//}
+		
 		if (binaryImage.at<__int16>(coordinateB) == 1) {
 		
 			return coordinateB;
@@ -151,7 +151,9 @@ int allContours(Mat binaryImage, vector<vector<Point>> &contours) {
 			// The main idea here is, is that we use the firstPixelVec from labelBLOBsInfo to get the firstCell for every different
 			// BLOB. With these, we should be able to draw the different contours.
 			// The fault here though is in ?classes? (point2d, point, double, etc)
-		Point<double> firstCell = &firstPixelVec[N];
+		int firstCellx = firstPixelVec[N]->x;
+		int firstCelly = firstPixelVec[N]->y;
+		Point firstCell = { firstCellx, firstCelly };
 		Point currentCell;
 		/*
 		Point firstCell;
@@ -178,12 +180,11 @@ int allContours(Mat binaryImage, vector<vector<Point>> &contours) {
 			}
 		}
 		*/
-
-
-
 		// find contourpixel per iteration
 		int ii{ 0 };
-		Point moorePoint = firstCell + Point2d(-1,0);
+		Point moorePoint = firstCell + Point(-1,0);
+		rowContours.push_back(firstCell);
+
 		while(currentCell != firstCell ) {
 			if (ii == 0) {
 				currentCell = firstCell;

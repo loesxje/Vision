@@ -1,3 +1,2 @@
-﻿  allContours.cpp
-c:\users\loes\documents\github\vision2\mooreboundarytrackingalgorithm\allcontours.cpp(150): error C2440: 'initializing': cannot convert from 'cv::Point_<double> **' to 'cv::Point_<int>'
-  c:\users\loes\documents\github\vision2\mooreboundarytrackingalgorithm\allcontours.cpp(150): note: No constructor could take the source type, or constructor overload resolution was ambiguous
+﻿  MooreBoundaryTrackingAlgorithm.vcxproj -> C:\Users\simcha\Documents\Github\Vision\x64\Debug\MooreBoundaryTrackingAlgorithm.exe
+  MooreBoundaryTrackingAlgorithm.vcxproj -> C:\Users\simcha\Documents\Github\Vision\x64\Debug\MooreBoundaryTrackingAlgorithm.pdb (Partial PDB)
