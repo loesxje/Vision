@@ -103,23 +103,25 @@ int determineMooreNr(Point moorePoint, Point currentCell) {
 
 Point clockwise(Point &currentCell, Mat binaryImage, Point &moorePoint) {
 	//determine mooreNr 
+	
 	int mooreNr = determineMooreNr(moorePoint, currentCell);
 	
-	Point coordinate; //This object walks around the currentcell to find the neighbour
+	Point coordinateB;
+	
 	int mooreIteration{ 0 };
 	for (mooreIteration; mooreIteration < 8; mooreIteration++) {
 		
 		Point step = determinePath(mooreNr + mooreIteration, moorePoint, currentCell);
 
-		coordinate = currentCell + step;
+		coordinateB = currentCell + step;
 		
-		if (coordinate == Point(6, 6)) {
-			cout << binaryImage.at<__int16>(coordinate) << endl;
+		if (coordinateB == Point(6, 6)) {
+			cout << binaryImage.at<__int16>(coordinateB) << endl;
 		}
 		
-		if (binaryImage.at<__int16>(coordinate) >= 1) {
+		if (binaryImage.at<__int16>(coordinateB) >= 1) {
 		
-			return coordinate;
+			return coordinateB;
 			break;
 			
 		}
@@ -134,19 +136,50 @@ int allContours(Mat binaryImage, vector<vector<Point>> &contours) {
 	vector<Point2d*> posVec;
 	vector<int> areaVec;
 
-	int numBlobs = labelBLOBsInfo(binaryImage, binaryImage, firstPixelVec, posVec, areaVec, 1, INT_MAX); //int numBlobs = labelBLOBs(binaryImage, binaryImage);
+	int numBlobs = labelBLOBsInfo(binaryImage, binaryImage, firstPixelVec, posVec, areaVec, 1, INT_MAX);
+
+			//int numBlobs = labelBLOBs(binaryImage, binaryImage);
 
 	// For each blob, determine contour coordinates
 	for (int N = 0; N < numBlobs; N++) 
 	{
 		vector<Point> rowContours;
 
-		int firstCellrow = firstPixelVec[N]->x;
-		int firstCellcol = firstPixelVec[N]->y;
-		Point firstCell = { firstCellcol, firstCellrow };
+	
+		// find first cell where the moore algorithm needs to start
+			// --------------------------------------------------- I GOT THIS FAR --------------------------------------------------
+			// The main idea here is, is that we use the firstPixelVec from labelBLOBsInfo to get the firstCell for every different
+			// BLOB. With these, we should be able to draw the different contours.
+			// The fault here though is in ?classes? (point2d, point, double, etc)
+		int firstCellx = firstPixelVec[N]->x;
+		int firstCelly = firstPixelVec[N]->y;
+		Point firstCell = { firstCelly, firstCellx };
 		Point currentCell;
-
-
+		/*
+		Point firstCell;
+		bool firstFound{ false };
+		Point currentCell;
+		int row{ 0 }; // row and col are indices 
+		for (row; row < binaryImage.rows; row++)
+		{
+			int col{ 0 };
+			for (col; col < binaryImage.cols; col++)
+			{
+				if (binaryImage.at<__int16>(row, col) != 0) // when first pixel is found, save in contours
+				{
+					firstCell = Point{ col,row };
+					//currentCell = firstCell;
+					rowContours.push_back(firstCell);
+					firstFound = true;
+					break;
+				}
+			}
+			if (firstFound) //break loops if first pixel is found
+			{
+				break;
+			}
+		}
+		*/
 		// find contourpixel per iteration
 		int ii{ 0 };
 		Point moorePoint = firstCell + Point(-1,0);
@@ -156,13 +189,18 @@ int allContours(Mat binaryImage, vector<vector<Point>> &contours) {
 			if (ii == 0) {
 				currentCell = firstCell;
 			}
+			if (N == 1) {
+				cout << "Hiero" << endl;
+			}
 			currentCell = clockwise(currentCell, binaryImage, moorePoint);
 			rowContours.push_back(currentCell);
 			ii++;
 		}
 		contours.push_back(rowContours);
-		rowContours.clear();	
+		rowContours.clear();
+		
 	}
+
 	return numBlobs;
 }
 

@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 	// Stel een threshold in. Laad evt de figuur eerst in VisionLab om een goede
 	// threshold te bepalen.
 	// ! Comment this line out when using rummikub images
-	threshold(gray_image, binaryImage, 165, 1, CV_THRESH_BINARY_INV);
+	threshold(gray_image, binaryImage, 240, 1, CV_THRESH_BINARY_INV);
 
 	// Alvorens bewerkingen uit te voeren op het beeld converteren we deze
 	// naar een Mat object met grotere diepte (depth), t.w. 16 bits signed
