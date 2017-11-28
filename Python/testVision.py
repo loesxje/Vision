@@ -21,3 +21,11 @@ avl.show16SImageStretch(binaryImage, "Binary Image")
 cv2.destroyAllWindows()
 testMatrix = avl.makeAdmin(binaryImage)
 avl.printMatrix(testMatrix)
+
+for ii in range(8):
+    if avl.getEntryNeighbour(testMatrix, 3,3,ii) == -1:
+        print ii
+        break
+    
+    
+    
