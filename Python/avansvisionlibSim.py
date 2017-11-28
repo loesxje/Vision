@@ -91,8 +91,7 @@ def makeAdmin(binImg):
     result[result.shape[0]-1][:] = zerosArray
     return result
 
-def findNextBlob(admin):
-    global row, col
+def findNextBlob(admin, row, col):
     found = False
     adminshp = admin.shape
 
@@ -110,7 +109,7 @@ def findNextBlob(admin):
     if (not found):
         row = -1
         col = -1
-    return found
+    return [found, row, col]
 
 
 def getEntryNeighbour(admin, x, y, mooreNr):
@@ -189,12 +188,13 @@ def findNext1(admin, x, y):
                                     nextMooreNr = 7
                                 else:
                                     print "no neighbour found"
-    x = rotX
-    y = rotY
+    if next1 >= 0:
+        x = rotX
+        y = rotY
     return [x, y, nextMooreNr]
 
 
-def labelIter(admin, blobNr):
+def labelIter(admin, row, col, blobNr):
 	x = row
 	y = col
 	admin[x][y] = blobNr*10 + 8
@@ -209,43 +209,163 @@ def labelIter(admin, blobNr):
 		while not (pathLabeled):
 			if(not allLabeledFlag):
 				allLabeledFlag = moreNext1(admin, x, y)
-				findNext1(admin, x, y, next1)
+				[x, y, next1] = findNext1(admin, x, y)
 				
 			if(next1 >= 0):
 				admin[x][y] = blobNr*10 + next1
-				area += area
+				area += 1
 				
 			else:
+				findPrevious = admin[x][y] % 10
+				if findPrevious = 0:
+					x += 1
+					break
+				elif(findPrevious = 1):
+					x += 1
+					y -= 1
+					break
+				elif(findPrevious = 2):
+					y -= 1
+					break;
+				elif(findPrevious = 3):
+					x -= 1
+					y -= 1
+					break
+				elif(findPrevious = 4):
+					x -= 1
+					break
+				elif(findPrevious = 5):
+					x -= 1
+					y += 1
+					break
+				elif(findPrevious = 6):
+					y += 1
+					break
+				elif(findPrevious = 7):
+					x += 1
+					y += 1
+				elif(pathLabeled = True):
+					break
+				else:
+					print "Error func labelIter!"
+	return [admin, area]
+
+def labelIterInfo(admin, topX, topY, blobNr):
+    
+    xGravity = topX
+    yGravity = topY
+    x = topX
+    y = topY
+    admin[y][x] = blobNr*10 + 8
+
+
+    allLabeledFlag = True
+	while(allLabeledFlag):
+		allLabeledFlag = False
+		pathLabeled = False
+		while not (pathLabeled):
+			if(not allLabeledFlag):
+				allLabeledFlag = moreNext1(admin, x, y)
+				[x, y, next1] = findNext1(admin, x, y)
+				
+			if(next1 >= 0):
+				admin[x][y] = blobNr*10 + next1
+				area += 1
+                xGravity += x
+                yGravity += y
+            else:
 				findPrevious = admin[x][y] % 10
 				if(findPrevious = 0):
 					x += 1
 					break
-				ifelse(findPrevious = 1):
+				elif(findPrevious = 1):
 					x += 1
 					y -= 1
 					break
-				ifelse(findPrevious = 2):
+				elif(findPrevious = 2):
 					y -= 1
 					break;
-				ifelse(findPrevious = 3):
+				elif(findPrevious = 3):
 					x -= 1
 					y -= 1
 					break
-				ifelse(findPrevious = 4):
+				elif(findPrevious = 4):
 					x -= 1
 					break
-				ifelse(findPrevious = 5):
+				elif(findPrevious = 5):
 					x -= 1
 					y += 1
 					break
-				ifelse(findPrevious = 6):
+				elif(findPrevious = 6):
 					y += 1
 					break
-				ifelse(findPrevious = 7):
+				elif(findPrevious = 7):
 					x += 1
 					y += 1
-				ifelse(pathLabeled = True):
+				elif(pathLabeled = True):
 					break
 				else:
 					print "Error func labelIter!"
-	return area
+    xGravity /= area;
+	yGravity /= area;
+   return [admin, area, xGravity, yGravity];
+
+def labelRecursive(admin, row, col, blobNr):
+    area = 0
+    if admin[row][col] = -1:
+        admin[row][col] = blobNr
+        area = 1
+        
+        # alle pixels rondom huidige pixel bezoeken
+		# (row-1,col-1) (row-1,col ) (row-1,col+1) 
+		# (row  ,col-1) (row,  col ) (row  ,col+1)
+		# (row+1,col-1) (row,  col ) (row+1,col+1)
+		area += labelRecursive(admin, row - 1, col, blobNr)
+		area += labelRecursive(admin, row - 1, col + 1, blobNr)
+		area += labelRecursive(admin, row, col + 1, blobNr)
+		area += labelRecursive(admin, row + 1, col + 1, blobNr)
+		area += labelRecursive(admin, row, col, blobNr)
+		area += labelRecursive(admin, row + 1, col - 1, blobNr)
+		area += labelRecursive(admin, row, col - 1, blobNr)
+		area += labelRecursive(admin, row - 1, col - 1, blobNr)
+    return [admin, area]
+
+def retrieveLabeledImage(admin):
+    [adminRow, adminCol] = np.shape(admin)
+    labeledImage = np.zeros([adminRow-2, adminCol-2])
+    
+    for ii in range(1,adminRow-1):
+        for jj in range(1,adminCol-1):
+            labeledImage[ii-1][jj-1] = admin[ii][jj]/10
+            
+     return labeledImage
+ 
+def labelBLOBs(binaryImage):
+    admin = makeAdmin(binaryImage)
+    
+    [adminRow, adminCol] = np.shape(admin)
+    labeledImage = np.zeros([adminRow-2, adminCol-2])
+    
+    row = 1
+    col = 1
+    blobNr = 0
+    
+    while ((row > 0) & (row < (adminRow - 1)) & (col > 0) & (col < (adminCol - 1))):
+        [found, row, col] = findNextBlob(admin, row, col)
+        if found:
+            [admin, area] = labelIter(admin, row, col, blobNr++)
+    labeledImage = retrievedLabeledImage(admin)
+    
+    return [blobNr, labeledImage]
+
+def removeBLOB(admin, blobNr):
+    [adminRow, adminCol] = np.shape(admin)
+    for ii in range(1, adminRow):
+        for jj in range(1, adminCol):
+            value = admin[ii][jj]
+            while value > 10:
+                value = value/10
+            if value == blobNr:
+                admin[ii][jj] = 0
+                
+    return admin
