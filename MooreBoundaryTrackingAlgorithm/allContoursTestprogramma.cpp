@@ -37,85 +37,86 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	// De afbeelding converteren naar een grijswaarde afbeelding
-	Mat gray_image;
-	cvtColor(image, gray_image, CV_BGR2GRAY);
+	cout << getEntry(image, 1, 1);
+	//// De afbeelding converteren naar een grijswaarde afbeelding
+	//Mat gray_image;
+	//cvtColor(image, gray_image, CV_BGR2GRAY);
 
-	// Converteren naar grijswaarde afbeelding
-	cout << "Imagefile: " << argv[1] << " met succes geconverteerd naar grijswaarde beeld." << endl;
+	//// Converteren naar grijswaarde afbeelding
+	//cout << "Imagefile: " << argv[1] << " met succes geconverteerd naar grijswaarde beeld." << endl;
 
-	////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////
 
-	namedWindow("Original", WINDOW_AUTOSIZE);
-	imshow("Original", gray_image);
+	//namedWindow("Original", WINDOW_AUTOSIZE);
+	//imshow("Original", gray_image);
 
-	/** ! Gebruik een region of interest voor de rummikub images **/
-	// Mat imageROI = gray_image(Rect(34, 28, 976, 82));
-	// imshow("imageROI", imageROI);
-	// waitKey(0);
+	///** ! Gebruik een region of interest voor de rummikub images **/
+	//// Mat imageROI = gray_image(Rect(34, 28, 976, 82));
+	//// imshow("imageROI", imageROI);
+	//// waitKey(0);
 
-	// Grijswaarde afbeelding thresholden
-	Mat binaryImage;
-	
-	/** ! Gebruik een region of interest voor de rummikub figuren **/
-	// threshold(imageROI, binaryImage, 65, 1, CV_THRESH_BINARY_INV);
+	//// Grijswaarde afbeelding thresholden
+	//Mat binaryImage;
+	//
+	///** ! Gebruik een region of interest voor de rummikub figuren **/
+	//// threshold(imageROI, binaryImage, 65, 1, CV_THRESH_BINARY_INV);
 
-	// Stel een threshold in. Laad evt de figuur eerst in VisionLab om een goede
-	// threshold te bepalen.
-	// ! Comment this line out when using rummikub images
-	threshold(gray_image, binaryImage, 240, 1, CV_THRESH_BINARY_INV);
+	//// Stel een threshold in. Laad evt de figuur eerst in VisionLab om een goede
+	//// threshold te bepalen.
+	//// ! Comment this line out when using rummikub images
+	//threshold(gray_image, binaryImage, 240, 1, CV_THRESH_BINARY_INV);
 
-	// Alvorens bewerkingen uit te voeren op het beeld converteren we deze
-	// naar een Mat object met grotere diepte (depth), t.w. 16 bits signed
-	Mat binary16S;
-	binaryImage.convertTo(binary16S, CV_16S);
+	//// Alvorens bewerkingen uit te voeren op het beeld converteren we deze
+	//// naar een Mat object met grotere diepte (depth), t.w. 16 bits signed
+	//Mat binary16S;
+	//binaryImage.convertTo(binary16S, CV_16S);
 
-	show16SImageStretch(binary16S,"Binary image");
+	//show16SImageStretch(binary16S,"Binary image");
 
-	/*
-	vector<Point> steps = { { -1,-1 },{ -1, 0 },{ -1, 1 },{ 0, 1 },{ 1, 1 },{ 1, 0 },{ 1, -1 },{ 0, -1 } }; //steps the object needs to make
-	for (int ii = 0; ii < 9; ii++) {
-		Point coordinates = (steps.at(ii).x + currentCell.x, steps.at(ii).y + currentCell.y);
-		box.at<int>(steps.at(ii)) = binaryImage.at<int>(coordinates);
-	}
-	*/
+	///*
+	//vector<Point> steps = { { -1,-1 },{ -1, 0 },{ -1, 1 },{ 0, 1 },{ 1, 1 },{ 1, 0 },{ 1, -1 },{ 0, -1 } }; //steps the object needs to make
+	//for (int ii = 0; ii < 9; ii++) {
+	//	Point coordinates = (steps.at(ii).x + currentCell.x, steps.at(ii).y + currentCell.y);
+	//	box.at<int>(steps.at(ii)) = binaryImage.at<int>(coordinates);
+	//}
+	//*/
 
-	// haal de contouren uit het binary image
-	vector<vector<Point>> contours;
-	cout << "Contouren bepalen...";
-	int aantal = allContours(binary16S, contours);  // <<<<*** De opdracht is dus om deze functie te maken ***
+	//// haal de contouren uit het binary image
+	//vector<vector<Point>> contours;
+	//cout << "Contouren bepalen...";
+	//int aantal = allContours(binary16S, contours);  // <<<<*** De opdracht is dus om deze functie te maken ***
 
-	// druk alle punten van alle gevonden contouren af
-	string line;
-	cout << "Aantal gevonden contouren = " << contours.size() << endl;
-	getline(cin, line);
-	for (int i = 0; i < contours.size(); i++) {
-		cout << "*** Contour " << i + 1 << " ***" << endl;
-		cout << "Press ENTER to continue....";
-		getline(cin, line);
-		for (int j = 0; j < contours[i].size(); j++) {
-			cout << "(" << contours[i][j].x << "," << contours[i][j].y << ")" << endl;
-		}		
-	}
+	//// druk alle punten van alle gevonden contouren af
+	//string line;
+	//cout << "Aantal gevonden contouren = " << contours.size() << endl;
+	//getline(cin, line);
+	//for (int i = 0; i < contours.size(); i++) {
+	//	cout << "*** Contour " << i + 1 << " ***" << endl;
+	//	cout << "Press ENTER to continue....";
+	//	getline(cin, line);
+	//	for (int j = 0; j < contours[i].size(); j++) {
+	//		cout << "(" << contours[i][j].x << "," << contours[i][j].y << ")" << endl;
+	//	}		
+	//}
 
-	// Creeer een witte image
-	//Mat contourImage = cvCreateImage(cvSize(binary16S.cols, binary16S.rows), IPL_DEPTH_8U, 3);
+	//// Creeer een witte image
+	////Mat contourImage = cvCreateImage(cvSize(binary16S.cols, binary16S.rows), IPL_DEPTH_8U, 3);
+	////contourImage = Scalar(255, 255, 255);
+
+	//IplImage* iplimage = cvCreateImage(cvSize(binary16S.cols, binary16S.rows), IPL_DEPTH_8U, 3);
+	//Mat contourImage = cvarrToMat(iplimage);
 	//contourImage = Scalar(255, 255, 255);
 
-	IplImage* iplimage = cvCreateImage(cvSize(binary16S.cols, binary16S.rows), IPL_DEPTH_8U, 3);
-	Mat contourImage = cvarrToMat(iplimage);
-	contourImage = Scalar(255, 255, 255);
 
+	//// teken de contouren op de witte image
+	//drawContours(contourImage, contours, -1, CV_RGB(255, 0, 0));
 
-	// teken de contouren op de witte image
-	drawContours(contourImage, contours, -1, CV_RGB(255, 0, 0));
+	//// druk het image met de contouren af
+	//imshow("Found contours", contourImage);
+	//waitKey(0);
 
-	// druk het image met de contouren af
-	imshow("Found contours", contourImage);
-	waitKey(0);
-
-	string pipo;
-	cin >> pipo;
+	//string pipo;
+	//cin >> pipo;
 
 	return 0;
 }
