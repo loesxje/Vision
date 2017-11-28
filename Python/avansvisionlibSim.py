@@ -91,18 +91,56 @@ def moreNext1(admin, x, y):
             break
     return more
 
-def findNext1(admin, x, y, nextMooreNr):
-    global
+def checkAdmin(admin, funX, funY):
+        if admin[rotY][rotX] == -1:
+            return True
+        else:
+            return False
+
+def findNext1(admin, x, y):
     
+    rotX = x-1
+    rotY = y
     
-    
-    switch = {
-            0: admin[y][x-1],
-            1: admin[y-1][x-1],
-            2: admin[y-1][x],
-            3: admin[y-1][x+1],
-            4: admin[y][x+1],
-            5: admin[y+1][x+1],
-            6: admin[y+1][x],
-            7: admin[y+1][x-1]
-            }
+    if checkAdmin(admin, rotX, rotY):
+        nextMooreNr = 0
+    else:
+        rotX = x-1
+        rotY = y-1
+        if checkAdmin(admin, rotX, rotY):
+            nextMooreNr = 1
+        else:
+            rotX = x
+            rotY = y-1
+            if checkAdmin(admin, rotX, rotY):
+                nextMooreNr = 2
+            else:
+                rotX = x+1
+                rotY = y-1
+                if checkAdmin(admin, rotX, rotY): 
+                    nextMooreNr = 3
+                else:
+                    rotX = x+1
+                    rotY = y
+                    if checkAdmin(admin, rotX, rotY): 
+                        nextMooreNr = 4
+                    else:
+                        rotX = x+1
+                        rotY = y+1
+                        if checkAdmin(admin, rotX, rotY): 
+                            nextMooreNr = 5
+                        else:
+                            rotX = x
+                            rotY = y+1
+                            if checkAdmin(admin, rotX, rotY): 
+                                nextMooreNr = 6
+                            else:
+                                rotX = x-1
+                                rotY = y+1
+                                if checkAdmin(admin, rotX, rotY): 
+                                    nextMooreNr = 7
+                                else:
+                                    print "no neighbour found"
+    x = rotX
+    y = rotY
+    return [x, y, nextMooreNr]
