@@ -5,7 +5,7 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommandArguments>C:\VisionPlaatje\testImages\basisfiguren.jpg</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>C:\Users\Loes\Downloads\DemoAfbeeldingenC++\monsters.jpg</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>
