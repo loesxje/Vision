@@ -24,7 +24,8 @@ def labelIter(admin, blobNr):
                 area += area
 
             else:
-                findPrevious = admin[x][y] % 10
+                findPrevious = admin[x][y] #% 10
+                print findPrevious
                 if (findPrevious = 0):
                     x += 1
                     break
@@ -56,4 +57,7 @@ def labelIter(admin, blobNr):
                 break
                 else:
                 print "Error func labelIter!"
-        return area
+    return area
+
+a = np.array([[0,0,0], [-1,0,0], [0,0,-1]])
+labelIter(a,1)
