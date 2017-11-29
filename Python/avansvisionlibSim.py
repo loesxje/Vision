@@ -424,7 +424,6 @@ def labelIterInfo(admin, topX, topY, blobNr):
     xGravity /= area
     yGravity /= area
     return [admin, area, xGravity, yGravity]
->>>>>>> 24789e0190afb007f1861f34b4b635d7aa71aa1b
 
 def labelRecursive(admin, row, col, blobNr):
     area = 0
