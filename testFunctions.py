@@ -1,63 +1,27 @@
 import numpy as np
 import matplotlib as mplot
+import avansvisionlibLOES as avl
+import cv2
 
+imageWD = 'C:\Visionplaatje\\'
+filename = 'testImg.png'
+imagePath = imageWD + filename
+img = cv2.imread(imagePath)
 
-def labelIter(admin, blobNr):
-    x = row
-    y = col
-    admin[x][y] = blobNr * 10 + 8
+if img.any() == None:
+    print "Error. Could not read file."
+else:
+    print "De imagefile = " + filename
 
-    next1 = -999
-    area = 1
+grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    allLabeledFlag = True
-    while (allLabeledFlag):
-        allLabeledFlag = False
-        pathLabeled = False
-        while not (pathLabeled):
-            if (not allLabeledFlag):
-                allLabeledFlag = moreNext1(admin, x, y)
-                findNext1(admin, x, y, next1)
+binaryImage = cv2.threshold(grayImage, 180, 1, cv2.THRESH_BINARY_INV)[1]
+avl.printMatrix(binaryImage)
 
-            if (next1 >= 0):
-                admin[x][y] = blobNr * 10 + next1
-                area += area
+avl.show16SImageStretch(binaryImage, "Binary Image")
+cv2.destroyAllWindows()
+testMatrix = avl.makeAdmin(binaryImage)
+avl.printMatrix(testMatrix)
 
-            else:
-                findPrevious = admin[x][y] #% 10
-                print findPrevious
-                if (findPrevious = 0):
-                    x += 1
-                    break
-                ifelse(findPrevious = 1):
-                x += 1
-                y -= 1
-                break
-                ifelse(findPrevious = 2):
-                y -= 1
-                break;
-                ifelse(findPrevious = 3):
-                x -= 1
-                y -= 1
-                break
-                ifelse(findPrevious = 4):
-                x -= 1
-                break
-                ifelse(findPrevious = 5):
-                x -= 1
-                y += 1
-                break
-                ifelse(findPrevious = 6):
-                y += 1
-                break
-                ifelse(findPrevious = 7):
-                x += 1
-                y += 1
-                ifelse(pathLabeled = True):
-                break
-                else:
-                print "Error func labelIter!"
-    return area
-
-a = np.array([[0,0,0], [-1,0,0], [0,0,-1]])
-labelIter(a,1)
+avl.show16SImageStretch(testMatrix, "binimg")
+cv2.destroyAllWindows()
