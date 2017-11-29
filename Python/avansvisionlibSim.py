@@ -218,95 +218,68 @@ def labelIter(admin, row, col, blobNr):
 			else:
 				findPrevious = admin[x][y] % 10
 				if findPrevious = 0:
+				if findPrevious == 0:
 					x += 1
 					break
 				elif(findPrevious = 1):
+				elif(findPrevious == 1):
 					x += 1
 					y -= 1
 					break
 				elif(findPrevious = 2):
+				elif(findPrevious == 2):
 					y -= 1
 					break;
 				elif(findPrevious = 3):
+				elif(findPrevious == 3):
 					x -= 1
 					y -= 1
 					break
 				elif(findPrevious = 4):
+				elif(findPrevious == 4):
 					x -= 1
 					break
 				elif(findPrevious = 5):
+				elif(findPrevious == 5):
 					x -= 1
 					y += 1
 					break
 				elif(findPrevious = 6):
+				elif(findPrevious == 6):
 					y += 1
 					break
 				elif(findPrevious = 7):
+				elif(findPrevious == 7):
 					x += 1
 					y += 1
 				elif(pathLabeled = True):
+				elif(pathLabeled):
 					break
 				else:
 					print "Error func labelIter!"
 	return [admin, area]
 
 def labelIterInfo(admin, topX, topY, blobNr):
-    
-    xGravity = topX
-    yGravity = topY
-    x = topX
-    y = topY
-    admin[y][x] = blobNr*10 + 8
 
 
-    allLabeledFlag = True
-	while(allLabeledFlag):
 		allLabeledFlag = False
 		pathLabeled = False
 		while not (pathLabeled):
-			if(not allLabeledFlag):
-				allLabeledFlag = moreNext1(admin, x, y)
-				[x, y, next1] = findNext1(admin, x, y)
-				
-			if(next1 >= 0):
-				admin[x][y] = blobNr*10 + next1
-				area += 1
-                xGravity += x
-                yGravity += y
-            else:
-				findPrevious = admin[x][y] % 10
-				if(findPrevious = 0):
-					x += 1
-					break
-				elif(findPrevious = 1):
-					x += 1
-					y -= 1
-					break
-				elif(findPrevious = 2):
-					y -= 1
-					break;
-				elif(findPrevious = 3):
-					x -= 1
-					y -= 1
-					break
-				elif(findPrevious = 4):
-					x -= 1
-					break
-				elif(findPrevious = 5):
 					x -= 1
 					y += 1
 					break
 				elif(findPrevious = 6):
+				elif(findPrevious == 6):
 					y += 1
 					break
 				elif(findPrevious = 7):
 					x += 1
 					y += 1
 				elif(pathLabeled = True):
+				elif(pathLabeled):
 					break
 				else:
 					print "Error func labelIter!"
-    xGravity /= area;
 	yGravity /= area;
    return [admin, area, xGravity, yGravity];
 
