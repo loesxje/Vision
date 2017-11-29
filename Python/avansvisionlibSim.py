@@ -427,7 +427,6 @@ def labelIterInfo(admin, topX, topY, blobNr):
 
 def labelRecursive(admin, row, col, blobNr):
     area = 0
-    if admin[row][col] = -1:
     if admin[row][col] == -1:
         admin[row][col] = blobNr
         area = 1
