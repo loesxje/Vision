@@ -99,7 +99,15 @@ def findNextBlob(admin, row, col):
     nrow = adminshp[0]
     ncol = adminshp[1]
     
-    for currRow in range(row, nrow - 1):
+    for currCol in range(col, ncol -1):
+        if (admin[row][currCol] == -1):
+                found = True
+                col = currCol
+                break
+        if found:
+            break
+        
+    for currRow in range(row+1, nrow - 1):
         for currCol in range(1, ncol - 1):
             if (admin[currRow][currCol] == -1):
                 found = True
@@ -115,154 +123,150 @@ def findNextBlob(admin, row, col):
     return [found, row, col]
 
 
-def getEntryNeighbour(admin, x, y, mooreNr):
+def getEntryNeighbour(admin, row, col, mooreNr):
 
     switch = {
-            0: admin[y][x-1],
-            1: admin[y+1][x-1],
-            2: admin[y+1][x],
-            3: admin[y+1][x+1],
-            4: admin[y][x+1],
-            5: admin[y-1][x+1],
-            6: admin[y-1][x],
-            7: admin[y-1][x-1]
+            0: admin[row][col-1],
+            1: admin[row+1][col-1],
+            2: admin[row-1][col],
+            3: admin[row+1][col+1],
+            4: admin[row][col+1],
+            5: admin[row-1][col+1],
+            6: admin[row-1][col],
+            7: admin[row-1][col-1]
             }
     return switch.get(mooreNr, "ERROR getEntryNeighbour")
 
-def moreNext1(admin, x, y):
+def moreNext1(admin, row, col):
 
     more = False
     count = 0
     for ii in range(7):
-        if getEntryNeighbour(admin, x, y, ii)== -1:
+        if getEntryNeighbour(admin, row, col, ii)== -1:
             count += 1
             
         if count > 1:
             more = True
     return more
 
-def checkAdmin(admin, funX, funY):
-    if admin[funY][funX] == -1:
+def checkAdmin(admin, row, col):
+    if admin[row][col] == -1:
         return True
     else:
         return False
 
-def findNext1(admin, x, y):
+def findNext1(admin, row, col):
     
     
-    rotX = x-1
-    rotY = y
+    rotRow = row-1
+    rotCol = col
     
-    if checkAdmin(admin, rotX, rotY):
+    if checkAdmin(admin, rotRow, rotCol):
         nextMooreNr = 0
     else:
-        rotX = x-1
-        rotY = y+1
-        if checkAdmin(admin, rotX, rotY):
+        rotRow = row-1
+        rotCol = col+1
+        if checkAdmin(admin, rotRow, rotCol):
             nextMooreNr = 1
         else:
-            rotX = x
-            rotY = y+1
-            if checkAdmin(admin, rotX, rotY):
+            rotRow = row
+            rotCol = col+1
+            if checkAdmin(admin, rotRow, rotCol):
                 nextMooreNr = 2
             else:
-                rotX = x+1
-                rotY = y+1
-                if checkAdmin(admin, rotX, rotY): 
+                rotRow = row+1
+                rotCol = col+1
+                if checkAdmin(admin, rotRow, rotCol): 
                     nextMooreNr = 3
                 else:
-                    rotX = x+1
-                    rotY = y
-                    if checkAdmin(admin, rotX, rotY): 
+                    rotRow = row+1
+                    rotCol = col
+                    if checkAdmin(admin, rotRow, rotCol): 
                         nextMooreNr = 4
                     else:
-                        rotX = x+1
-                        rotY = y-1
-                        if checkAdmin(admin, rotX, rotY): 
+                        rotRow = row+1
+                        rotCol = col-1
+                        if checkAdmin(admin, rotRow, rotCol): 
                             nextMooreNr = 5
                         else:
-                            rotX = x
-                            rotY = y-1
-                            if checkAdmin(admin, rotX, rotY): 
+                            rotRow = row
+                            rotCol = col-1
+                            if checkAdmin(admin, rotRow, rotCol): 
                                 nextMooreNr = 6
                             else:
-                                rotX = x-1
-                                rotY = y-1
-                                if checkAdmin(admin, rotX, rotY): 
+                                rotRow = row-1
+                                rotCol = col-1
+                                if checkAdmin(admin, rotRow, rotCol): 
                                     nextMooreNr = 7
                                 else:
                                     nextMooreNr = -99
     if nextMooreNr >= 0:
-        x = rotX
-        y = rotY
-    return [x, y, nextMooreNr]
+        row = rotRow
+        col = rotCol
+    return [row, col, nextMooreNr]
 
 
 def labelIter(admin, row, col, blobNr):
-      
-	y = row
-	x = col
-	admin[y][x] = blobNr*10 + 8
+    
+	admin[row][col] = blobNr*10 + 8
 	
 	next1 = -999
 	area = 1
-	
 	allLabeledFlag = True
-	while(allLabeledFlag):
-		allLabeledFlag = False
-		pathLabeled = False
-		while not (pathLabeled):
-			if(not allLabeledFlag):
-				allLabeledFlag = moreNext1(admin, x, y)
-			[x, y, next1] = findNext1(admin, x, y)
-                
-			if(next1 >= 0):
-				admin[y][x] = blobNr*10 + next1
-				area += 1
-				
-			else:
-				findPrevious = admin[y][x] % 10
-				if findPrevious == 0:
-					x += 1
-					break
-				elif findPrevious == 1:
-					x += 1
-					y -= 1
-					break
-				elif (findPrevious == 2):
-					y -= 1
-					break;
-				elif (findPrevious == 3):
-					x -= 1
-					y -= 1
-					break
-				elif (findPrevious == 4):
-					x -= 1
-					break
-				elif (findPrevious == 5):
-					x -= 1
-					y += 1
-					break
-				elif (findPrevious == 6):
-					y += 1
-					break
-				elif (findPrevious == 7):
-					x += 1
-					y += 1
-					break
-				elif (findPrevious == 8):
-					pathLabeled = True
-					break
-				else:
-					print "Error func labelIter!"
+	while allLabeledFlag:
+	    allLabeledFlag = False
+        pathLabeled = False
+        while not (pathLabeled):    
+            if(not allLabeledFlag):
+                allLabeledFlag = moreNext1(admin, row, col)
+            [row, col, next1] = findNext1(admin, row, col)
+			
+            if(next1 >= 0):
+                admin[row][col] = blobNr*10 + next1
+                area += 1
+
+            else:
+                findPrevious = admin[row][col] % 10
+                if findPrevious == 0:
+                    row += 1
+                    break
+                elif(findPrevious == 1):
+    					row += 1
+    					col -= 1
+    					break
+                elif(findPrevious == 2):
+    					col -= 1
+    					break;
+                elif(findPrevious == 3):
+    					row -= 1
+      					col -= 1
+      					break
+                elif(findPrevious == 4):
+                    row -= 1
+                    break
+                elif(findPrevious == 5):
+                    row -= 1
+                    col += 1
+                    break
+                elif(findPrevious == 6):
+                    col += 1
+                    break
+                elif(findPrevious == 7):
+                    row += 1
+                    col += 1
+                elif findPrevious == 8:
+                    (pathLabeled) = True
+                    break
+                else:
+                    print "Error func labelIter!"
 	return [admin, area]
 
-def labelIterInfo(admin, topX, topY, blobNr):
-    xGravity = topX
-    yGravity = topY
-    x = topX
-    y = topY
-    admin[y][x] = blobNr * 10 + 8
+def labelIterInfo(admin, topRow, topCol, blobNr):
+    rowGravity = topRow
+    colGravity = topCol
+    row = topRow
+    col = topCol
+    admin[row][col] = blobNr * 10 + 8
     area = 1
     
     allLabeledFlag = True
@@ -271,50 +275,50 @@ def labelIterInfo(admin, topX, topY, blobNr):
         pathLabeled = False
         while not (pathLabeled):    
             if(not allLabeledFlag):
-                allLabeledFlag = moreNext1(admin, x, y)
-                [x, y, next1] = findNext1(admin, x, y)
+                allLabeledFlag = moreNext1(admin, row, col)
+                [row, col, next1] = findNext1(admin, row, col)
 			
             if(next1 >= 0):
-                admin[x][y] = blobNr*10 + next1
+                admin[row][col] = blobNr*10 + next1
                 area += 1
 
             else:
-                findPrevious = admin[x][y] % 10
+                findPrevious = admin[row][col] % 10
                 if findPrevious == 0:
-                    x += 1
+                    row += 1
                     break
                 elif(findPrevious == 1):
-    					x += 1
-    					y -= 1
+    					row += 1
+    					col -= 1
     					break
                 elif(findPrevious == 2):
-    					y -= 1
+    					col -= 1
     					break;
                 elif(findPrevious == 3):
-    					x -= 1
-      					y -= 1
+    					row -= 1
+      					col -= 1
       					break
                 elif(findPrevious == 4):
-                    x -= 1
+                    row -= 1
                     break
                 elif(findPrevious == 5):
-                    x -= 1
-                    y += 1
+                    row -= 1
+                    col += 1
                     break
                 elif(findPrevious == 6):
-                    y += 1
+                    col += 1
                     break
                 elif(findPrevious == 7):
-                    x += 1
-                    y += 1
+                    row += 1
+                    col += 1
                 elif findPrevious == 8:
                     (pathLabeled) = True
                     break
                 else:
                     print "Error func labelIter!"
-    xGravity = xGravity /area
-    yGravity = yGravity /area
-    return [admin, area, xGravity, yGravity]
+    rowGravity = rowGravity /area
+    colGravity = colGravity /area
+    return [admin, area, rowGravity, colGravity]
 
 
 def labelRecursive(admin, row, col, blobNr):
@@ -383,14 +387,14 @@ def labelBLOBsInfo(binaryImage, labeledImage, thresAreaMin, threshAreaMax):
     row = 1
     col = 1
     blobNr = 0
-    firstpixelVec = {}
-    posVec = {}
-
+    firstpixelVec = []
+    posVec = []
+    areaVec = []
     while ((row > 0 & row < (admin.reshape[0] - 1))
                & (col > 0) & (col < (admin.reshape[1] - 1))):
         if findNextBlob(admin):
             blobNr += 1
-            area = labelIterInfo(admin, xGravity, yGravity, blobNr)
+            [admin, area, xGravity, yGravity] = labelIterInfo(admin, row, col, blobNr)
             if (area >= thresAreaMin & area <= threshAreaMax):
                 firstpixelVec.append([row - 1, col - 1])
                 posVec.append([xGravity - 1, yGravity - 1])

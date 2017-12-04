@@ -3,7 +3,7 @@ import cv2
 import avansvisionlibSim as avl
 
 imageWD = 'C:\Visionplaatje\\'
-filename = 'monsters.jpg'
+filename = 'testImg.png'
 imagePath = imageWD + filename
 img = cv2.imread(imagePath)
 
