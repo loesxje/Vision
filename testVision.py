@@ -15,10 +15,12 @@ else:
 grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 binaryImage = cv2.threshold(grayImage, 165, 1, cv2.THRESH_BINARY_INV)[1]
-avl.printMatrix(binaryImage)
+#avl.printMatrix(binaryImage)
 
-avl.show16SImageStretch(binaryImage, "Binary Image")
-cv2.destroyAllWindows()
+# =============================================================================
+# avl.show16SImageStretch(binaryImage, "Binary Image")
+# cv2.destroyAllWindows()
+# =============================================================================
   
 [totalBlobs, labeledImage] = avl.labelBLOBs(binaryImage)
 avl.show16SImageStretch(labeledImage, "show Blobs")

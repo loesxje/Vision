@@ -69,7 +69,7 @@ def show16SImageStretch(m, windowName):
     cv2.imshow(windowName, mCopy)
     cv2.waitKey(0)  
 
-def gammaCorrection(img, correction):
+def gammaCorrection(img, correction): #only for 1 channel pictures
     img = img/255.0
     img = cv2.pow(img, correction)
     return img*255
@@ -100,7 +100,7 @@ def findNextBlob(admin, row, col):
     ncol = adminshp[1]
     
     for currRow in range(row, nrow - 1):
-        for currCol in range(col, ncol - 1):
+        for currCol in range(1, ncol - 1):
             if (admin[currRow][currCol] == -1):
                 found = True
                 row = currRow
@@ -119,13 +119,13 @@ def getEntryNeighbour(admin, x, y, mooreNr):
 
     switch = {
             0: admin[y][x-1],
-            1: admin[y-1][x-1],
-            2: admin[y-1][x],
-            3: admin[y-1][x+1],
+            1: admin[y+1][x-1],
+            2: admin[y+1][x],
+            3: admin[y+1][x+1],
             4: admin[y][x+1],
-            5: admin[y+1][x+1],
-            6: admin[y+1][x],
-            7: admin[y+1][x-1]
+            5: admin[y-1][x+1],
+            6: admin[y-1][x],
+            7: admin[y-1][x-1]
             }
     return switch.get(mooreNr, "ERROR getEntryNeighbour")
 
@@ -149,6 +149,7 @@ def checkAdmin(admin, funX, funY):
 
 def findNext1(admin, x, y):
     
+    
     rotX = x-1
     rotY = y
     
@@ -156,17 +157,17 @@ def findNext1(admin, x, y):
         nextMooreNr = 0
     else:
         rotX = x-1
-        rotY = y-1
+        rotY = y+1
         if checkAdmin(admin, rotX, rotY):
             nextMooreNr = 1
         else:
             rotX = x
-            rotY = y-1
+            rotY = y+1
             if checkAdmin(admin, rotX, rotY):
                 nextMooreNr = 2
             else:
                 rotX = x+1
-                rotY = y-1
+                rotY = y+1
                 if checkAdmin(admin, rotX, rotY): 
                     nextMooreNr = 3
                 else:
@@ -176,17 +177,17 @@ def findNext1(admin, x, y):
                         nextMooreNr = 4
                     else:
                         rotX = x+1
-                        rotY = y+1
+                        rotY = y-1
                         if checkAdmin(admin, rotX, rotY): 
                             nextMooreNr = 5
                         else:
                             rotX = x
-                            rotY = y+1
+                            rotY = y-1
                             if checkAdmin(admin, rotX, rotY): 
                                 nextMooreNr = 6
                             else:
                                 rotX = x-1
-                                rotY = y+1
+                                rotY = y-1
                                 if checkAdmin(admin, rotX, rotY): 
                                     nextMooreNr = 7
                                 else:
@@ -306,7 +307,8 @@ def labelIterInfo(admin, topX, topY, blobNr):
                 elif(findPrevious == 7):
                     x += 1
                     y += 1
-                elif(pathLabeled):
+                elif findPrevious == 8:
+                    (pathLabeled) = True
                     break
                 else:
                     print "Error func labelIter!"
