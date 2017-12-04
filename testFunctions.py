@@ -1,10 +1,10 @@
 import numpy as np
 import matplotlib as mplot
-import avansvisionlibLOES as avl
+import avansvisionlibSim as avl
 import cv2
 
 imageWD = 'C:\Visionplaatje\\'
-filename = 'testImg.png'
+filename = 'monsters.jpg'
 imagePath = imageWD + filename
 img = cv2.imread(imagePath)
 
