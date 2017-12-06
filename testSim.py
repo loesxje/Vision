@@ -1,7 +1,7 @@
 from IPython import get_ipython
 ipython = get_ipython()
 
-ipython.magic('reset -sf')
+#ipython.magic('reset -sf')
 
 from skimage import measure
 import numpy as np
@@ -26,11 +26,16 @@ if type(img) == type(None):
 else:
     print "De imagefile = " + filename
 
+cv2.imshow("Original", img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
 grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-grayImage = cv2.GaussianBlur(grayImage, (9,9),0.)
-
 binaryImage = cv2.threshold(grayImage, 240, 1, cv2.THRESH_BINARY_INV)[1]
+
+binaryImage = cv2.GaussianBlur(binaryImage, (17,17), 0.)
+binaryImage = cv2.morphologyEx(binaryImage, cv2.MORPH_CLOSE, kernel = np.ones([3,3]))
 
 avl.show16SImageStretch(binaryImage, "Binary Image")
 cv2.destroyAllWindows()
@@ -43,7 +48,7 @@ labeledImage = np.uint8(labeledImage)
 
 avl.show16SImageStretch(labeledImage, "show Blobs")
 cv2.destroyAllWindows()
-print totalBlobs
+print "Total Blobs = " + str(totalBlobs)
 
 [contourImage, contourVec] = avl.makeContourImage(binaryImage)
             
