@@ -41,4 +41,6 @@ print totalBlobs
 #avl.show16SImageStretch(contourImage, "show Contour")
 cv2.destroyAllWindows()
 
-bbtl.allBoundingBoxes(contourVec)
+bbs = bbtl.allBoundingBoxes(contourVec)
+bigbb = bbtl.biggestBoundingBox(bbs)
+print(bigbb)

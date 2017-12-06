@@ -11,7 +11,7 @@ from planar import BoundingBox
 #           i.e. bbs[i] belongs to contours[i]
 
 def allBoundingBoxes(contourvector):
-    #argument contourvector comes from findContours
+    #argument contourvector comes from makeContourImage
 
     #for i in size(findNextBlob):
         #calc min_x & min_y from the contour of every Blob
@@ -21,10 +21,24 @@ def allBoundingBoxes(contourvector):
     for i in range(len(contourvector)):
         bbox = BoundingBox(contourvector[i])
         bbs.append([(bbox._min[0], bbox._min[1]), (bbox._max[0], bbox._max[1])])
-    print(bbs)
+    return bbs
 
+def biggestBoundingBox(bounding_boxes_vector):
     #calc difference min_x & max_x & min_y & max_y
+    x_difference = 0
+    y_difference = 0
+    for i in range(len(bounding_boxes_vector)):
+        x_dif = bounding_boxes_vector[i][1][0] - bounding_boxes_vector[i][0][0]
+        if(x_dif > x_difference):
+            x_difference = x_dif
+        y_dif = bounding_boxes_vector[i][1][1] - bounding_boxes_vector[i][0][1]
+        if(y_dif > y_difference):
+            y_difference = y_dif
+
     #save greatest difference x & y
+    biggestbb = [x_difference, y_difference]
+
+    return biggestbb
 
     #draw boxes
         #all points in between
@@ -51,7 +65,5 @@ def allBoundingBoxes(contourvector):
                     # start_draw_left_right += k
 
         #draw lines
-
-
 
 
