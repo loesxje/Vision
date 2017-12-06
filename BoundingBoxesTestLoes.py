@@ -65,24 +65,32 @@ def getCoordinatesAllBoundingBoxes(all_bounding_boxes, biggest_bounding_box, ima
         min_col = all_bounding_boxes[i][0][1]
         middle.append([(((max_row - min_row) / 2) + min_row), (((max_col - min_col) / 2) + min_col)])
 
-    #calc boxes per blob
+    #find boxpoints per blob that exist within the imagesize
+    box_points = []
     for i in range(len(all_bounding_boxes)):
-        start_draw_up_down = middle[i][0] - 0.5 * biggest_bounding_box[1]
-        end_draw_up_down = middle[i][0] + 0.5 * biggest_bounding_box[1]
+        start_box_up_down = middle[i][0] - 0.5 * biggest_bounding_box[1]
+        end_box_up_down = middle[i][0] + 0.5 * biggest_bounding_box[1]
 
-        print(start_draw_up_down, end_draw_up_down)
-        print("m", middle[i])
+        if(start_box_up_down < 0):
+            end_box_up_down -= start_box_up_down
+            start_box_up_down = 0
+        elif(end_box_up_down > image.shape[1]):
+            start_box_up_down -= end_box_up_down
+            end_box_up_down = image.shape[1]
 
-        if(start_draw_up_down < 0):
-            end_draw_up_down -= start_draw_up_down
-            start_draw_up_down = 0
-        elif(end_draw_up_down > image.shape[1]):
-            start_draw_up_down -= end_draw_up_down
-            end_draw_up_down = image.shape[1]
+        start_box_left_right = middle[i][1] - 0.5 * biggest_bounding_box[0]
+        end_box_left_right = middle[i][1] + 0.5 * biggest_bounding_box[0]
 
-        print(start_draw_up_down, end_draw_up_down)
-            # for i in range(len(all_bounding_boxes)):
-                #start_draw_up_down = middle_blob - 0.5*difference_x
+        if(start_box_left_right < 0):
+            end_box_left_right -= start_box_left_right
+            start_box_left_right = 0
+        elif(end_box_left_right > image.shape[0]):
+            start_box_left_right -= end_box_left_right
+            end_box_left_right = image.shape[0]
+
+        box_points.append([[start_box_left_right, start_box_up_down], [start_box_left_right, end_box_up_down], [end_box_left_right, end_box_up_down], [end_box_left_right, start_box_up_down]])
+
+
                 #for j in range(difference_x):
                     #line_up.append(start_draw_up_down + 0.5*difference_y)
                     #line_down.append(start_draw_up_down - 0.5*difference_y)
@@ -93,7 +101,7 @@ def getCoordinatesAllBoundingBoxes(all_bounding_boxes, biggest_bounding_box, ima
                     # line_left.append(start_draw_left_right + 0.5*difference_x)
                     # line_right.append(start_draw_left_right + 0.5*difference_x)
                     # start_draw_left_right += k
-    return 0
+    return box_points
         #draw lines
 
 

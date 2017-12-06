@@ -4,6 +4,7 @@ import cv2
 import avansvisionlibSim as avl
 import sys
 import BoundingBoxesTestLoes as bbtl
+from PIL import Image
 from skimage import draw
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
@@ -43,4 +44,6 @@ cv2.destroyAllWindows()
 
 bbs = bbtl.allBoundingBoxes(contourVec)
 bigbb = bbtl.biggestBoundingBox(bbs)
-bbtl.getCoordinatesAllBoundingBoxes(bbs,bigbb, img)
+boxpoints = bbtl.getCoordinatesAllBoundingBoxes(bbs,bigbb, img)
+
+print(boxpoints)
