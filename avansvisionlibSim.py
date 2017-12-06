@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+from skimage import measure
 
 def printMatrix(m):
     [row,col] = np.shape(m)
@@ -58,16 +59,17 @@ def stretchImage(m, minPixelValue, maxPixelValue):
     for ii in range(row):
         for jj in range(col):
             oldValue = m[ii][jj]
-            newValue = scale*(oldValue - minValue) + minPixelValue
+            newValue = np.floor(scale*(oldValue - minValue)) + minPixelValue
             m[ii][jj]= newValue
             
     return m
 
 def show16SImageStretch(m, windowName):
-    mCopy = m
+    mCopy = m.copy()
     mCopy = stretchImage(mCopy, 0, 255)
     cv2.imshow(windowName, mCopy)
-    cv2.waitKey(0)  
+    cv2.waitKey(0)
+    
 
 def gammaCorrection(img, correction): #only for 1 channel pictures
     img = img/255.0
@@ -406,3 +408,17 @@ def labelBLOBsInfo(binaryImage, labeledImage, thresAreaMin, threshAreaMax):
     retrieveLabeledImage(admin, labeledImage)
 
     return blobNr
+
+def makeContourImage(binaryImage):
+    contours = measure.find_contours(binaryImage, level = 0., fully_connected = "high")
+    contourImage = np.zeros(np.shape(binaryImage))
+
+    for ii in range(len(contours)):
+        numCor = len(contours[ii])
+        corIndex = range(numCor)
+        for cor in contours[ii][corIndex]:
+            row = int(cor[0])
+            col = int(cor[1])
+            contourImage[row-1][col-1] = 1
+                
+    return contourImage
