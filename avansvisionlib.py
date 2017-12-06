@@ -208,119 +208,121 @@ def findNext1(admin, row, col):
     return [row, col, nextMooreNr]
 
 
-def labelIter(admin, row, col, blobNr):
-    
-	admin[row][col] = blobNr*10 + 8
-	
-	next1 = -999
-	area = 1
-	allLabeledFlag = True
-	while allLabeledFlag:
-	    allLabeledFlag = False
-        pathLabeled = False
-        while not (pathLabeled):    
-            if(not allLabeledFlag):
-                allLabeledFlag = moreNext1(admin, row, col)
-            [row, col, next1] = findNext1(admin, row, col)
-			
-            if(next1 >= 0):
-                admin[row][col] = blobNr*10 + next1
-                area += 1
-
-            else:
-                findPrevious = admin[row][col] % 10
-                if findPrevious == 0:
-                    row += 1
-                    break
-                elif(findPrevious == 1):
-    					row += 1
-    					col -= 1
-    					break
-                elif(findPrevious == 2):
-    					col -= 1
-    					break;
-                elif(findPrevious == 3):
-    					row -= 1
-      					col -= 1
-      					break
-                elif(findPrevious == 4):
-                    row -= 1
-                    break
-                elif(findPrevious == 5):
-                    row -= 1
-                    col += 1
-                    break
-                elif(findPrevious == 6):
-                    col += 1
-                    break
-                elif(findPrevious == 7):
-                    row += 1
-                    col += 1
-                elif findPrevious == 8:
-                    (pathLabeled) = True
-                    break
-                else:
-                    print "Error func labelIter!"
-	return [admin, area]
-
-def labelIterInfo(admin, topRow, topCol, blobNr):
-    rowGravity = topRow
-    colGravity = topCol
-    row = topRow
-    col = topCol
-    admin[row][col] = blobNr * 10 + 8
-    area = 1
-    
-    allLabeledFlag = True
-    while (allLabeledFlag):
-        allLabeledFlag = False
-        pathLabeled = False
-        while not (pathLabeled):    
-            if(not allLabeledFlag):
-                allLabeledFlag = moreNext1(admin, row, col)
-                [row, col, next1] = findNext1(admin, row, col)
-			
-            if(next1 >= 0):
-                admin[row][col] = blobNr*10 + next1
-                area += 1
-
-            else:
-                findPrevious = admin[row][col] % 10
-                if findPrevious == 0:
-                    row += 1
-                    break
-                elif(findPrevious == 1):
-    					row += 1
-    					col -= 1
-    					break
-                elif(findPrevious == 2):
-    					col -= 1
-    					break;
-                elif(findPrevious == 3):
-    					row -= 1
-      					col -= 1
-      					break
-                elif(findPrevious == 4):
-                    row -= 1
-                    break
-                elif(findPrevious == 5):
-                    row -= 1
-                    col += 1
-                    break
-                elif(findPrevious == 6):
-                    col += 1
-                    break
-                elif(findPrevious == 7):
-                    row += 1
-                    col += 1
-                elif findPrevious == 8:
-                    (pathLabeled) = True
-                    break
-                else:
-                    print "Error func labelIter!"
-    rowGravity = rowGravity /area
-    colGravity = colGravity /area
-    return [admin, area, rowGravity, colGravity]
+# =============================================================================
+# def labelIter(admin, row, col, blobNr):
+#     
+# 	admin[row][col] = blobNr*10 + 8
+# 	
+# 	next1 = -999
+# 	area = 1
+# 	allLabeledFlag = True
+# 	while allLabeledFlag:
+# 	    allLabeledFlag = False
+#         pathLabeled = False
+#         while not (pathLabeled):    
+#             if(not allLabeledFlag):
+#                 allLabeledFlag = moreNext1(admin, row, col)
+#             [row, col, next1] = findNext1(admin, row, col)
+# 			
+#             if(next1 >= 0):
+#                 admin[row][col] = blobNr*10 + next1
+#                 area += 1
+# 
+#             else:
+#                 findPrevious = admin[row][col] % 10
+#                 if findPrevious == 0:
+#                     row += 1
+#                     break
+#                 elif(findPrevious == 1):
+#     					row += 1
+#     					col -= 1
+#     					break
+#                 elif(findPrevious == 2):
+#     					col -= 1
+#     					break;
+#                 elif(findPrevious == 3):
+#     					row -= 1
+#       					col -= 1
+#       					break
+#                 elif(findPrevious == 4):
+#                     row -= 1
+#                     break
+#                 elif(findPrevious == 5):
+#                     row -= 1
+#                     col += 1
+#                     break
+#                 elif(findPrevious == 6):
+#                     col += 1
+#                     break
+#                 elif(findPrevious == 7):
+#                     row += 1
+#                     col += 1
+#                 elif findPrevious == 8:
+#                     (pathLabeled) = True
+#                     break
+#                 else:
+#                     print "Error func labelIter!"
+# 	return [admin, area]
+# 
+# def labelIterInfo(admin, topRow, topCol, blobNr):
+#     rowGravity = topRow
+#     colGravity = topCol
+#     row = topRow
+#     col = topCol
+#     admin[row][col] = blobNr * 10 + 8
+#     area = 1
+#     
+#     allLabeledFlag = True
+#     while (allLabeledFlag):
+#         allLabeledFlag = False
+#         pathLabeled = False
+#         while not (pathLabeled):    
+#             if(not allLabeledFlag):
+#                 allLabeledFlag = moreNext1(admin, row, col)
+#                 [row, col, next1] = findNext1(admin, row, col)
+# 			
+#             if(next1 >= 0):
+#                 admin[row][col] = blobNr*10 + next1
+#                 area += 1
+# 
+#             else:
+#                 findPrevious = admin[row][col] % 10
+#                 if findPrevious == 0:
+#                     row += 1
+#                     break
+#                 elif(findPrevious == 1):
+#     					row += 1
+#     					col -= 1
+#     					break
+#                 elif(findPrevious == 2):
+#     					col -= 1
+#     					break;
+#                 elif(findPrevious == 3):
+#     					row -= 1
+#       					col -= 1
+#       					break
+#                 elif(findPrevious == 4):
+#                     row -= 1
+#                     break
+#                 elif(findPrevious == 5):
+#                     row -= 1
+#                     col += 1
+#                     break
+#                 elif(findPrevious == 6):
+#                     col += 1
+#                     break
+#                 elif(findPrevious == 7):
+#                     row += 1
+#                     col += 1
+#                 elif findPrevious == 8:
+#                     (pathLabeled) = True
+#                     break
+#                 else:
+#                     print "Error func labelIter!"
+#     rowGravity = rowGravity /area
+#     colGravity = colGravity /area
+#     return [admin, area, rowGravity, colGravity]
+# =============================================================================
 
 
 def labelRecursive(admin, row, col, blobNr):
@@ -352,25 +354,27 @@ def retrieveLabeledImage(admin):
             labeledImage[ii-1][jj-1] = admin[ii][jj]/10
     return labeledImage
 
-def labelBLOBs(binaryImage):
-    admin = makeAdmin(binaryImage)
-
-    [adminRow, adminCol] = np.shape(admin)
-    labeledImage = np.zeros([adminRow-2, adminCol-2])
-
-    row = 1
-    col = 1
-    blobNr = 0
-    
-    while ((row > 0) & (row < (adminRow - 1)) & (col > 0) & (col < (adminCol - 1))):
-        [found, row, col] = findNextBlob(admin, row, col)
-        if found:
-            blobNr += 1
-            [admin, area] = labelIter(admin, row, col, blobNr)
-    labeledImage = retrieveLabeledImage(admin)
-    
-    return [blobNr, labeledImage]
-
+# =============================================================================
+# def labelBLOBs(binaryImage):
+#     admin = makeAdmin(binaryImage)
+# 
+#     [adminRow, adminCol] = np.shape(admin)
+#     labeledImage = np.zeros([adminRow-2, adminCol-2])
+# 
+#     row = 1
+#     col = 1
+#     blobNr = 0
+#     
+#     while ((row > 0) & (row < (adminRow - 1)) & (col > 0) & (col < (adminCol - 1))):
+#         [found, row, col] = findNextBlob(admin, row, col)
+#         if found:
+#             blobNr += 1
+#             [admin, area] = labelIter(admin, row, col, blobNr)
+#     labeledImage = retrieveLabeledImage(admin)
+#     
+#     return [blobNr, labeledImage]
+# 
+# =============================================================================
 def removeBLOB(admin, blobNr):
     [adminRow, adminCol] = np.shape(admin)
     for ii in range(1, adminRow):
@@ -384,30 +388,32 @@ def removeBLOB(admin, blobNr):
     return admin
 
 
-def labelBLOBsInfo(binaryImage, labeledImage, thresAreaMin, threshAreaMax):
-    admin = makeAdmin(binaryImage)
-    row = 1
-    col = 1
-    blobNr = 0
-    firstpixelVec = []
-    posVec = []
-    areaVec = []
-    while ((row > 0 & row < (admin.reshape[0] - 1))
-               & (col > 0) & (col < (admin.reshape[1] - 1))):
-        if findNextBlob(admin):
-            blobNr += 1
-            [admin, area, xGravity, yGravity] = labelIterInfo(admin, row, col, blobNr)
-            if (area >= thresAreaMin & area <= threshAreaMax):
-                firstpixelVec.append([row - 1, col - 1])
-                posVec.append([xGravity - 1, yGravity - 1])
-                areaVec.append(area)
-            else:
-                blobNr -= 1
-                removeBLOB(admin, blobNr)
-
-    retrieveLabeledImage(admin, labeledImage)
-
-    return blobNr
+# =============================================================================
+# def labelBLOBsInfo(binaryImage, labeledImage, thresAreaMin, threshAreaMax):
+#     admin = makeAdmin(binaryImage)
+#     row = 1
+#     col = 1
+#     blobNr = 0
+#     firstpixelVec = []
+#     posVec = []
+#     areaVec = []
+#     while ((row > 0 & row < (admin.reshape[0] - 1))
+#                & (col > 0) & (col < (admin.reshape[1] - 1))):
+#         if findNextBlob(admin):
+#             blobNr += 1
+#             [admin, area, xGravity, yGravity] = labelIterInfo(admin, row, col, blobNr)
+#             if (area >= thresAreaMin & area <= threshAreaMax):
+#                 firstpixelVec.append([row - 1, col - 1])
+#                 posVec.append([xGravity - 1, yGravity - 1])
+#                 areaVec.append(area)
+#             else:
+#                 blobNr -= 1
+#                 removeBLOB(admin, blobNr)
+# 
+#     retrieveLabeledImage(admin, labeledImage)
+# 
+#     return blobNr
+# =============================================================================
 
 def makeContourImage(binaryImage):
     contours = measure.find_contours(binaryImage, level = 0., fully_connected = "high")
