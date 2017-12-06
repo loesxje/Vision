@@ -8,7 +8,7 @@ from skimage import draw
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
 imageWD = 'C:\Visionplaatje\\'
-filename = 'monsters.jpg'
+filename = 'basisfiguren.jpg'
 # =============================================================================
 
 # lOAD IMAGE
@@ -34,7 +34,7 @@ labeledImage = np.uint8(labeledImage)
 
 #avl.show16SImageStretch(labeledImage, "show Blobs")
 cv2.destroyAllWindows()
-print totalBlobs
+#print totalBlobs
 
 [contourImage, contourVec] = avl.makeContourImage(binaryImage)
 
@@ -43,4 +43,4 @@ cv2.destroyAllWindows()
 
 bbs = bbtl.allBoundingBoxes(contourVec)
 bigbb = bbtl.biggestBoundingBox(bbs)
-print(bigbb)
+bbtl.getCoordinatesAllBoundingBoxes(bbs,bigbb, img)

@@ -25,33 +25,63 @@ def allBoundingBoxes(contourvector):
 
 def biggestBoundingBox(bounding_boxes_vector):
     #calc difference min_x & max_x & min_y & max_y
-    x_difference = 0
-    y_difference = 0
+    row_difference = 0
+    col_difference = 0
     for i in range(len(bounding_boxes_vector)):
-        x_dif = bounding_boxes_vector[i][1][0] - bounding_boxes_vector[i][0][0]
-        if(x_dif > x_difference):
-            x_difference = x_dif
-        y_dif = bounding_boxes_vector[i][1][1] - bounding_boxes_vector[i][0][1]
-        if(y_dif > y_difference):
-            y_difference = y_dif
+        row_dif = bounding_boxes_vector[i][1][0] - bounding_boxes_vector[i][0][0]
+        col_dif = bounding_boxes_vector[i][1][1] - bounding_boxes_vector[i][0][1]
+        if(row_dif > row_difference):
+            row_difference = row_dif
+        if(col_dif > col_difference):
+            col_difference = col_dif
+
+    #make the length of the biggest bounding box odd. This way, it is easier to define a middle
+    if(row_difference%2 == 0):
+        row_difference += 1
+    if(col_difference%2 == 0):
+        col_difference += 1
 
     #save greatest difference x & y
-    biggestbb = [x_difference, y_difference]
+    biggestbb = [row_difference, col_difference]
 
     return biggestbb
 
+def getCoordinatesAllBoundingBoxes(all_bounding_boxes, biggest_bounding_box, image):
     #draw boxes
         #all points in between
             #(min_x, min_y) (min_x, max_y)
             #(min_x, max_y) (max_x, max_y)
             #(max_x, max_y) (max_x, min_y)
             #(max_x, min_y) (min_x, min_y)
-        #start in down left or in the middle of the Blob?
-            # middle: start at the middle_blob
 
-        #calc boxes per blob
-            # middle_Blob = ergens uit labelBLOBsInfo
-            # for i in range(size(findNextBlob)):
+    #start in the middle of the Blob
+    middle = []
+
+    for i in range(len(all_bounding_boxes)):
+        max_row = all_bounding_boxes[i][1][0]
+        min_row = all_bounding_boxes[i][0][0]
+
+        max_col = all_bounding_boxes[i][1][1]
+        min_col = all_bounding_boxes[i][0][1]
+        middle.append([(((max_row - min_row) / 2) + min_row), (((max_col - min_col) / 2) + min_col)])
+
+    #calc boxes per blob
+    for i in range(len(all_bounding_boxes)):
+        start_draw_up_down = middle[i][0] - 0.5 * biggest_bounding_box[1]
+        end_draw_up_down = middle[i][0] + 0.5 * biggest_bounding_box[1]
+
+        print(start_draw_up_down, end_draw_up_down)
+        print("m", middle[i])
+
+        if(start_draw_up_down < 0):
+            end_draw_up_down -= start_draw_up_down
+            start_draw_up_down = 0
+        elif(end_draw_up_down > image.shape[1]):
+            start_draw_up_down -= end_draw_up_down
+            end_draw_up_down = image.shape[1]
+
+        print(start_draw_up_down, end_draw_up_down)
+            # for i in range(len(all_bounding_boxes)):
                 #start_draw_up_down = middle_blob - 0.5*difference_x
                 #for j in range(difference_x):
                     #line_up.append(start_draw_up_down + 0.5*difference_y)
@@ -63,7 +93,7 @@ def biggestBoundingBox(bounding_boxes_vector):
                     # line_left.append(start_draw_left_right + 0.5*difference_x)
                     # line_right.append(start_draw_left_right + 0.5*difference_x)
                     # start_draw_left_right += k
-
+    return 0
         #draw lines
 
 
