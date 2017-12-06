@@ -426,3 +426,4 @@ def makeContourImage(binaryImage):
         contourVec[ii] = tempArray
                 
     return [contourImage, contourVec]
+
