@@ -11,11 +11,17 @@ from planar import BoundingBox
 #           i.e. bbs[i] belongs to contours[i]
 
 def allBoundingBoxes(contourvector):
-    #read contour from ?labelBLOBsInfo?
+    #argument contourvector comes from findContours
 
     #for i in size(findNextBlob):
         #calc min_x & min_y from the contour of every Blob
         #calc max_x & max_y from the contour of every Blob
+    bbs = []
+
+    for i in range(len(contourvector)):
+        bbox = BoundingBox(contourvector[i])
+        bbs.append([(bbox._min[0], bbox._min[1]), (bbox._max[0], bbox._max[1])])
+    print(bbs)
 
     #calc difference min_x & max_x & min_y & max_y
     #save greatest difference x & y
@@ -43,14 +49,8 @@ def allBoundingBoxes(contourvector):
                     # line_left.append(start_draw_left_right + 0.5*difference_x)
                     # line_right.append(start_draw_left_right + 0.5*difference_x)
                     # start_draw_left_right += k
-        bbox = BoundingBox(contourvector)
-        bbox = BoundingBox.from_center((2, 2), width=4, height=9)
-        print(bbox)
 
         #draw lines
-
-
-allBoundingBoxes([[1,2],[2,5],[7,3]])
 
 
 
