@@ -8,6 +8,7 @@ import numpy as np
 import cv2
 import avansvisionlib as avl
 import sys
+import boundingBoxesSim as bobo
 
 # =================BEPAAL OF JE AFBEELDINGEN WIL ZIEN==========================
 showImages = False
@@ -15,7 +16,7 @@ showImages = False
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
 imageWD = 'C:\Visionplaatje\\'
-filename = 'monsters.jpg'
+filename = 'basisfiguren.jpg'
 # =============================================================================
 
 # lOAD IMAGE
@@ -67,3 +68,9 @@ print "Total Blobs = " + str(totalBlobs)
 if showImages:            
     avl.show16SImageStretch(contourImage, "show Contour")
     cv2.destroyAllWindows()
+
+boBos = bobo.allBoundingBoxes(contourVec)
+bigBoBo = bobo.biggestBoundingBox(boBos)
+boxPoints = bobo.getCoordinatesAllBoundingBoxes(boBos,bigBoBo, img)
+
+

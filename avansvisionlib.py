@@ -427,8 +427,8 @@ def makeContourImage(binaryImage):
             cor = contours[ii][jj]
             row = int(cor[0])
             col = int(cor[1])
-            contourImage[row-1][col-1] = 1
-            tempArray[jj] = [row-1, col-1]
+            contourImage[row][col] = 1
+            tempArray[jj] = [row, col]
         contourVec[ii] = tempArray
                 
     return [contourImage, contourVec]
