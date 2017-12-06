@@ -412,13 +412,17 @@ def labelBLOBsInfo(binaryImage, labeledImage, thresAreaMin, threshAreaMax):
 def makeContourImage(binaryImage):
     contours = measure.find_contours(binaryImage, level = 0., fully_connected = "high")
     contourImage = np.zeros(np.shape(binaryImage))
-
+    contourVec = {}
     for ii in range(len(contours)):
         numCor = len(contours[ii])
         corIndex = range(numCor)
-        for cor in contours[ii][corIndex]:
+        tempArray = np.zeros([numCor,2])
+        for jj in corIndex:
+            cor = contours[ii][jj]
             row = int(cor[0])
             col = int(cor[1])
             contourImage[row-1][col-1] = 1
+            tempArray[jj] = [row-1, col-1]
+        contourVec[ii] = tempArray
                 
-    return contourImage
+    return [contourImage, contourVec]

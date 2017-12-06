@@ -38,7 +38,7 @@ avl.show16SImageStretch(labeledImage, "show Blobs")
 cv2.destroyAllWindows()
 print totalBlobs
 
-contourImage = avl.makeContourImage(binaryImage)
+[contourImage, contourVec] = avl.makeContourImage(binaryImage)
             
 avl.show16SImageStretch(contourImage, "show Contour")
 cv2.destroyAllWindows()
