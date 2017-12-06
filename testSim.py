@@ -6,10 +6,12 @@ ipython = get_ipython()
 from skimage import measure
 import numpy as np
 import cv2
-import avansvisionlibSim as avl
+import avansvisionlib as avl
 import sys
-from skimage import draw
 
+# =================BEPAAL OF JE AFBEELDINGEN WIL ZIEN==========================
+showImages = False
+# =============================================================================
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
 imageWD = 'C:\Visionplaatje\\'
@@ -26,31 +28,42 @@ if type(img) == type(None):
 else:
     print "De imagefile = " + filename
 
-cv2.imshow("Original", img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+if showImages:
+    # Show original image
+    cv2.imshow("Original", img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
+# Convert original to grayscale
 grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
+# Pre process the image
 binaryImage = cv2.threshold(grayImage, 240, 1, cv2.THRESH_BINARY_INV)[1]
-
 binaryImage = cv2.GaussianBlur(binaryImage, (17,17), 0.)
 binaryImage = cv2.morphologyEx(binaryImage, cv2.MORPH_CLOSE, kernel = np.ones([3,3]))
 
-avl.show16SImageStretch(binaryImage, "Binary Image")
-cv2.destroyAllWindows()
+if showImages:
+    avl.show16SImageStretch(binaryImage, "Binary Image")
+    cv2.destroyAllWindows()
   
-
+# label BLOBs and determine the number of blobs
 labeledImage = measure.label(binaryImage, background=0)
 totalBlobs = np.max(labeledImage)
-labeledImage = np.uint8(labeledImage)
+labeledImage = np.uint8(labeledImage) #convert to uint8. Otherwise the picture
+# can't be shown
 
+if showImages:
+    avl.show16SImageStretch(labeledImage, "show Blobs")
+    cv2.destroyAllWindows()
 
-avl.show16SImageStretch(labeledImage, "show Blobs")
-cv2.destroyAllWindows()
 print "Total Blobs = " + str(totalBlobs)
 
-[contourImage, contourVec] = avl.makeContourImage(binaryImage)
-            
-avl.show16SImageStretch(contourImage, "show Contour")
-cv2.destroyAllWindows()
+# retrieve BLOBs contours
+# OUT:
+#   contourImage is the image with the contours
+#   contourVec is a vector with the coordinates of the contours
+[contourImage, contourVec] = avl.makeContourImage(binaryImage) 
+
+if showImages:            
+    avl.show16SImageStretch(contourImage, "show Contour")
+    cv2.destroyAllWindows()
