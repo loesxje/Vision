@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+from planar import BoundingBox
 
 #Make bounding boxes
 
@@ -42,9 +43,15 @@ def allBoundingBoxes(contourvector):
                     # line_left.append(start_draw_left_right + 0.5*difference_x)
                     # line_right.append(start_draw_left_right + 0.5*difference_x)
                     # start_draw_left_right += k
+        bbox = BoundingBox(contourvector)
+        bbox = BoundingBox.from_center((2, 2), width=4, height=9)
+        print(bbox)
 
         #draw lines
-            plt.
+
+
+allBoundingBoxes([[1,2],[2,5],[7,3]])
+
 
 
 
