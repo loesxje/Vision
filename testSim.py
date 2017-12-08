@@ -10,13 +10,16 @@ import avansvisionlib as avl
 import sys
 import boundingBoxesSim as bobo
 
-# =================BEPAAL OF JE AFBEELDINGEN WIL ZIEN==========================
+# =============================================================================
 showImages = False
+doGauss = False
+doClose = False
+doErode = True
 # =============================================================================
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
 imageWD = 'C:\Visionplaatje\\'
-filename = 'basisfiguren.jpg'
+filename = 'contourImg.png'
 # =============================================================================
 
 # lOAD IMAGE
@@ -39,9 +42,14 @@ if showImages:
 grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # Pre process the image
-binaryImage = cv2.threshold(grayImage, 240, 1, cv2.THRESH_BINARY_INV)[1]
-binaryImage = cv2.GaussianBlur(binaryImage, (17,17), 0.)
-binaryImage = cv2.morphologyEx(binaryImage, cv2.MORPH_CLOSE, kernel = np.ones([3,3]))
+binaryImage = cv2.threshold(grayImage, 160, 1, cv2.THRESH_BINARY_INV)[1]
+if doGauss:
+    binaryImage = cv2.GaussianBlur(binaryImage, (17,17), 0.)
+if doClose:
+    binaryImage = cv2.morphologyEx(binaryImage, cv2.MORPH_CLOSE, kernel = np.ones([3,3]))
+if doErode:
+    binaryImageErode = cv2.erode(binaryImage, kernel = np.ones([3,3]))
+
 
 if showImages:
     avl.show16SImageStretch(binaryImage, "Binary Image")
@@ -63,7 +71,8 @@ print "Total Blobs = " + str(totalBlobs)
 # OUT:
 #   contourImage is the image with the contours
 #   contourVec is a vector with the coordinates of the contours
-[contourImage, contourVec] = avl.makeContourImage(binaryImage) 
+[contourImage, contourVec] = avl.makeContourImage(binaryImageErode) 
+contourImage = contourImage + labeledImage*2
 
 if showImages:            
     avl.show16SImageStretch(contourImage, "show Contour")
