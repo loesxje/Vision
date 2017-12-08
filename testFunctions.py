@@ -1,11 +1,22 @@
+from IPython import get_ipython
+
+ipython = get_ipython()
+
+# ipython.magic('reset -sf')
+
 from skimage import measure
 import numpy as np
 import cv2
-import avansvisionlibSim as avl
+import avansvisionlib as avl
 import sys
-import BoundingBoxesTestLoes as bbtl
-from PIL import Image
-from skimage import draw
+import boundingBoxesSim as bobo
+import cropBoundingBoxesLoes as crop
+
+# =============================================================================
+showImages = False
+doGauss = False
+doClose = False
+# =============================================================================
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
 imageWD = 'C:\Visionplaatje\\'
@@ -22,28 +33,56 @@ if type(img) == type(None):
 else:
     print "De imagefile = " + filename
 
+if showImages:
+    # Show original image
+    cv2.imshow("Original", img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+# Convert original to grayscale
 grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-binaryImage = cv2.threshold(grayImage, 240, 1, cv2.THRESH_BINARY_INV)[1]
+# Pre process the image
+binaryImage = cv2.threshold(grayImage, 160, 1, cv2.THRESH_BINARY_INV)[1]
+if doGauss:
+    binaryImage = cv2.GaussianBlur(binaryImage, (17, 17), 0.)
+if doClose:
+    binaryImage = cv2.morphologyEx(binaryImage, cv2.MORPH_CLOSE, kernel=np.ones([3, 3]))
 
-#avl.show16SImageStretch(binaryImage, "Binary Image")
-cv2.destroyAllWindows()
+if showImages:
+    avl.show16SImageStretch(binaryImage, "Binary Image")
+    cv2.destroyAllWindows()
 
+# label BLOBs and determine the number of blobs
 labeledImage = measure.label(binaryImage, background=0)
 totalBlobs = np.max(labeledImage)
-labeledImage = np.uint8(labeledImage)
+labeledImage = np.uint8(labeledImage)  # convert to uint8. Otherwise the picture
+# can't be shown
 
-#avl.show16SImageStretch(labeledImage, "show Blobs")
-cv2.destroyAllWindows()
-#print totalBlobs
+if showImages:
+    avl.show16SImageStretch(labeledImage, "show Blobs")
+    cv2.destroyAllWindows()
 
+print "Total Blobs = " + str(totalBlobs)
+
+# retrieve BLOBs contours
+# OUT:
+#   contourImage is the image with the contours
+#   contourVec is a vector with the coordinates of the contours
 [contourImage, contourVec] = avl.makeContourImage(binaryImage)
+contourImage = contourImage + labeledImage * 2
 
-#avl.show16SImageStretch(contourImage, "show Contour")
-cv2.destroyAllWindows()
+if showImages:
+    avl.show16SImageStretch(contourImage, "show Contour")
+    cv2.destroyAllWindows()
 
-bbs = bbtl.allBoundingBoxes(contourVec)
-bigbb = bbtl.biggestBoundingBox(bbs)
-boxpoints = bbtl.getCoordinatesAllBoundingBoxes(bbs,bigbb, img)
+boBos = bobo.allBoundingBoxes(contourVec)
+bigBoBo = bobo.biggestBoundingBox(boBos)
+boxPoints = bobo.getCoordinatesAllBoundingBoxes(boBos, bigBoBo, img, showImages)
 
-print(boxpoints)
+crop = crop.cropBoundingBoxes(boxPoints, grayImage)
+crop.saveCroppedImages(filename, crop)
+
+for ii in range(len(crop)):
+    cv2.imshow("crop", np.array(crop[ii]))
+    cv2.waitKey(0)

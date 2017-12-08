@@ -430,8 +430,8 @@ def makeContourImage(binaryImage):
             row = int(cor[0])
             col = int(cor[1])
             contourImage[row][col] = 1
-            if not ([row, col] in tempArray):
-                tempArray[jj] = [row, col]
+            #if not ([row, col] in tempArray):
+            tempArray[jj] = [row,  col]
         contourVec[ii] = tempArray
     
                 
