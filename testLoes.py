@@ -10,7 +10,6 @@ import cv2
 import avansvisionlib as avl
 import sys
 import boundingBoxesSim as bobo
-import cropBoundingBoxesLoes as crop
 
 # =============================================================================
 showImages = False

@@ -74,7 +74,7 @@ def getCoordinatesAllBoundingBoxes(allBoBo, biggestBoBo, image, doPlot = 1):
             endRow += startRow * -1 # negative * -1 = positive
             startRow = 0
         elif(endRow > image.shape[0]):
-            startRow += int(np.ceil(image.shape[0])) + endRow 
+            startRow += int(np.ceil(image.shape[0])) - endRow
             endRow = int(np.ceil(image.shape[0]))
 
         startCol = int(np.ceil(middle[i][1] - 0.5 * biggestBoBo[1]))
