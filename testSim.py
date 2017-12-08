@@ -6,19 +6,19 @@ ipython = get_ipython()
 from skimage import measure
 import numpy as np
 import cv2
-import avansvisionlib as avl
+import avansvisionlibSim as avl
 import sys
 import boundingBoxesSim as bobo
 
 # =============================================================================
-showImages = False
-doGauss = False
-doClose = False
+showImages = True
+doGauss = True
+doClose = True
 # =============================================================================
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
 imageWD = 'C:\Visionplaatje\\'
-filename = 'contourImg.png'
+filename = 'monsters.jpg'
 # =============================================================================
 
 # lOAD IMAGE
@@ -45,7 +45,7 @@ binaryImage = cv2.threshold(grayImage, 160, 1, cv2.THRESH_BINARY_INV)[1]
 if doGauss:
     binaryImage = cv2.GaussianBlur(binaryImage, (17,17), 0.)
 if doClose:
-    binaryImage = cv2.morphologyEx(binaryImage, cv2.MORPH_CLOSE, kernel = np.ones([3,3]))
+    binaryImage = cv2.morphologyEx(binaryImage, cv2.MORPH_CLOSE, kernel = np.ones([5,5]))
 
 if showImages:
     avl.show16SImageStretch(binaryImage, "Binary Image")
@@ -69,14 +69,13 @@ print "Total Blobs = " + str(totalBlobs)
 #   contourVec is a vector with the coordinates of the contours
 
 [contourImage, contourVec] = avl.makeContourImage(binaryImage) 
-contourBlob = contourImage + labeledImage*2
 
 if showImages:            
-    avl.show16SImageStretch(contourBlob, "show Contour")
+    avl.show16SImageStretch(contourImage, "show Contour")
     cv2.destroyAllWindows()
 
 boBos = bobo.allBoundingBoxes(contourVec)
 bigBoBo = bobo.biggestBoundingBox(boBos)
-boxPoints = bobo.getCoordinatesAllBoundingBoxes(boBos,bigBoBo, img, showImages)
+boxPoints = bobo.getCoordinatesAllBoundingBoxes(boBos, bigBoBo, img, showImages)
 
 fillContour = avl.contourFourConnected(contourImage, labeledImage)

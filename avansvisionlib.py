@@ -415,8 +415,9 @@ def removeBLOB(admin, blobNr):
 #     return blobNr
 # =============================================================================
 
-def makeContourImage(binaryImage):
-    binaryImage = cv2.erode(binaryImage, kernel = np.ones([3,3]))
+def makeContourImage(binaryImage, inner = True):
+    if inner:
+        binaryImage = cv2.erode(binaryImage.copy(), kernel = np.ones([3,3]))
     contours = measure.find_contours(binaryImage, level = 0., fully_connected = "high", positive_orientation = "high")
     contourImage = np.zeros(np.shape(binaryImage))
     contourVec = {}
@@ -430,10 +431,43 @@ def makeContourImage(binaryImage):
             row = int(cor[0])
             col = int(cor[1])
             contourImage[row][col] = 1
-            #if not ([row, col] in tempArray):
-            tempArray[jj] = [row,  col]
+#            if not ([row, col] in tempArray):
+            tempArray[jj] = [row, col]
         contourVec[ii] = tempArray
     
                 
     return [contourImage, contourVec]
 
+def contourFourConnected(contourImage, labeledImage):
+    # possible missing corners
+#    missingCorners = np.array([np.matrix('0 0; 0 1'), np.matrix('0 0; 1 0'), np.matrix('0 1; 0 0'), np.matrix('1 0; 0 0')]) 
+#    missingCornersBot = np.array([np.matrix('0 1; 0 0'), np.matrix('1 0; 0 0')])
+    #add outer row of zeros and cols 
+    copyContourImage = contourImage.copy()
+    [row,col] = np.shape(contourImage)
+    contourLabeled = np.zeros([row+2, col+2], dtype = int)
+    innerContour = contourImage + labeledImage
+    contourLabeled[1:row+1, 1:col+1] = innerContour
+    
+    #scan every cell for a possible corner
+    for rowIndex in range(1, row+1):
+        for colIndex in range(1, col+1):                
+            scanMatrix = np.int32(np.zeros([2,2]))
+            scanMatrix[0,0] = contourLabeled[rowIndex, colIndex]
+            scanMatrix[0,1] = contourLabeled[rowIndex, colIndex+1]
+            scanMatrix[1,0] = contourLabeled[rowIndex+1, colIndex]
+            scanMatrix[1,1] = contourLabeled[rowIndex+1, colIndex+1]
+            if np.any(scanMatrix):
+                if scanMatrix[1,1] == 1 and scanMatrix[0,0] == 0 and scanMatrix[1,0] == 0 and scanMatrix[0,1] == 0:
+                    copyContourImage[rowIndex, colIndex] = 1
+#                    print "contour filled at row {} and col {}".format(rowIndex, colIndex)
+                elif scanMatrix[1,0] == 1 and scanMatrix[0,0] == 0 and scanMatrix[1,1] == 0 and scanMatrix[0,1] == 0:
+                    copyContourImage[rowIndex, colIndex-1] = 1
+#                    print "contour filled at row {} and col {}".format(rowIndex, colIndex)
+                elif scanMatrix[0,1] == 1 and scanMatrix[0,0] == 0 and scanMatrix[1,0] == 0 and scanMatrix[1,1] == 0:
+                    copyContourImage[rowIndex-1, colIndex] = 1
+#                    print "contour filled at row {} and col {}".format(rowIndex, colIndex)
+                elif scanMatrix[0,0] == 1 and scanMatrix[1,1] == 0 and scanMatrix[1,0] == 0 and scanMatrix[0,1] == 0:
+                    copyContourImage[rowIndex-1, colIndex-1] = 1
+#                    print "contour filled at row {} and col {}".format(rowIndex, colIndex)
+    return copyContourImage
