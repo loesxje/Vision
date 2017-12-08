@@ -49,14 +49,6 @@ def biggestBoundingBox(boundingBoxesVector):
     return biggestBoBo
 
 def getCoordinatesAllBoundingBoxes(allBoBo, biggestBoBo, image, doPlot = 1):
-    
-    #draw boxes
-        #all points in between
-            #(min_x, min_y) (min_x, max_y)
-            #(min_x, max_y) (max_x, max_y)
-            #(max_x, max_y) (max_x, min_y)
-            #(max_x, min_y) (min_x, min_y)
-
     #start in the middle of the Blob
     middle = []
 
@@ -112,15 +104,40 @@ def getCoordinatesAllBoundingBoxes(allBoBo, biggestBoBo, image, doPlot = 1):
         cv2.imshow("Bobo", image)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
-            #for j in range(difference_x):
-                    #line_up.append(start_draw_up_down + 0.5*difference_y)
-                    #line_down.append(start_draw_up_down - 0.5*difference_y)
-                    #start_draw_up_down += j
 
-                # start_draw_left_right = middle_blob - 0.5*difference_y
-                # for k in range(difference_y):
-                    # line_left.append(start_draw_left_right + 0.5*difference_x)
-                    # line_right.append(start_draw_left_right + 0.5*difference_x)
-                    # start_draw_left_right += k
     return boxPoints
-        #draw lines
+
+def cropBoundingBoxes(boxPoints, image):
+    # find every point in between the boxpoints and put these points into a list/array/whatever
+    minRowCoorBox = []
+    minColCoorBox = []
+    maxRowCoorBox = []
+    maxColCoorBox = []
+    for blobindex in range(len(boxPoints)):
+        minRowCoorBox.append(boxPoints[blobindex][0][0])
+        minColCoorBox.append(boxPoints[blobindex][0][1])
+        maxRowCoorBox.append(boxPoints[blobindex][1][0])
+        maxColCoorBox.append(boxPoints[blobindex][1][1])
+
+    allCroppedImages = []
+    for blobindex in range(len(minColCoorBox)):
+        croppedImage = []
+        # for loop over the minimum to maximum coordinate of the rows
+        for ii in range(minRowCoorBox[blobindex], maxRowCoorBox[blobindex]+1):
+            croppedImage.append((image[ii][minColCoorBox[blobindex]: maxColCoorBox[blobindex]+1]))
+        allCroppedImages.append(croppedImage)
+
+
+    return allCroppedImages
+
+
+def saveCroppedImages(filename, allCroppedImages, path):
+    # save new mat objects to github folder and name each new image like classname_number
+    classname = filename.split(".")[0]
+
+    for blobindex in range(len(allCroppedImages)):
+        filename = "%s_%d.jpg" % (classname, blobindex+1)
+        image = np.uint8(allCroppedImages[blobindex])
+        cv2.imwrite(path+filename, image)
+
+    return 0
