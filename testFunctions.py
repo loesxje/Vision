@@ -16,11 +16,13 @@ import cropBoundingBoxesLoes as crop
 showImages = False
 doGauss = True
 doClose = True
+doCrop = True
+doWrite = True
 # =============================================================================
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
 imageWD = 'C:\Visionplaatje\\'
-filename = 'monsters.jpg'
+filename = 'drie.jpg'
 # =============================================================================
 
 # lOAD IMAGE
@@ -43,7 +45,7 @@ if showImages:
 grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # Pre process the image
-binaryImage = cv2.threshold(grayImage, 160, 1, cv2.THRESH_BINARY_INV)[1]
+binaryImage = cv2.threshold(grayImage, 145, 1, cv2.THRESH_BINARY_INV)[1]
 if doGauss:
     binaryImage = cv2.GaussianBlur(binaryImage, (17, 17), 0.)
 if doClose:
@@ -80,5 +82,8 @@ boBos = bobo.allBoundingBoxes(contourVec)
 bigBoBo = bobo.biggestBoundingBox(boBos)
 boxPoints = bobo.getCoordinatesAllBoundingBoxes(boBos, bigBoBo, img, showImages)
 
-crops = crop.cropBoundingBoxes(boxPoints, grayImage)
-crop.saveCroppedImages(filename, crops, imageWD)
+if doCrop:
+    crops = bobo.cropBoundingBoxes(boxPoints, grayImage)
+if doWrite:
+    bobo.saveCroppedImages(filename, crops, imageWD)
+
