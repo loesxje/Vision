@@ -14,7 +14,6 @@ import boundingBoxesSim as bobo
 showImages = False
 doGauss = False
 doClose = False
-doErode = True
 # =============================================================================
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
@@ -47,9 +46,6 @@ if doGauss:
     binaryImage = cv2.GaussianBlur(binaryImage, (17,17), 0.)
 if doClose:
     binaryImage = cv2.morphologyEx(binaryImage, cv2.MORPH_CLOSE, kernel = np.ones([3,3]))
-if doErode:
-    binaryImageErode = cv2.erode(binaryImage, kernel = np.ones([3,3]))
-
 
 if showImages:
     avl.show16SImageStretch(binaryImage, "Binary Image")
@@ -71,7 +67,7 @@ print "Total Blobs = " + str(totalBlobs)
 # OUT:
 #   contourImage is the image with the contours
 #   contourVec is a vector with the coordinates of the contours
-[contourImage, contourVec] = avl.makeContourImage(binaryImageErode) 
+[contourImage, contourVec] = avl.makeContourImage(binaryImage) 
 contourImage = contourImage + labeledImage*2
 
 if showImages:            

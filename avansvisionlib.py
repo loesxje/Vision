@@ -416,7 +416,8 @@ def removeBLOB(admin, blobNr):
 # =============================================================================
 
 def makeContourImage(binaryImage):
-    contours = measure.find_contours(binaryImage, level = 0., fully_connected = "low", positive_orientation = "high")
+    binaryImage = cv2.erode(binaryImage, kernel = np.ones([3,3]))
+    contours = measure.find_contours(binaryImage, level = 0., fully_connected = "high", positive_orientation = "high")
     contourImage = np.zeros(np.shape(binaryImage))
     contourVec = {}
     for ii in range(len(contours)):
@@ -428,8 +429,6 @@ def makeContourImage(binaryImage):
             cor = contours[ii][jj]
             row = int(cor[0])
             col = int(cor[1])
-
-                
             contourImage[row][col] = 1
             if not ([row, col] in tempArray):
                 tempArray[jj] = [row, col]
