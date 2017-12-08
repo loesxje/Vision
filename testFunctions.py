@@ -14,13 +14,13 @@ import cropBoundingBoxesLoes as crop
 
 # =============================================================================
 showImages = False
-doGauss = False
-doClose = False
+doGauss = True
+doClose = True
 # =============================================================================
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
 imageWD = 'C:\Visionplaatje\\'
-filename = 'basisfiguren.jpg'
+filename = 'monsters.jpg'
 # =============================================================================
 
 # lOAD IMAGE
@@ -80,9 +80,5 @@ boBos = bobo.allBoundingBoxes(contourVec)
 bigBoBo = bobo.biggestBoundingBox(boBos)
 boxPoints = bobo.getCoordinatesAllBoundingBoxes(boBos, bigBoBo, img, showImages)
 
-crop = crop.cropBoundingBoxes(boxPoints, grayImage)
-crop.saveCroppedImages(filename, crop)
-
-for ii in range(len(crop)):
-    cv2.imshow("crop", np.array(crop[ii]))
-    cv2.waitKey(0)
+crops = crop.cropBoundingBoxes(boxPoints, grayImage)
+crop.saveCroppedImages(filename, crops, imageWD)

@@ -25,13 +25,13 @@ def cropBoundingBoxes(boxPoints, image):
     return allCroppedImages
 
 
-def saveCroppedImages(filename, allCroppedImages):
+def saveCroppedImages(filename, allCroppedImages, path):
     # save new mat objects to github folder and name each new image like classname_number
     classname = filename.split(".")[0]
 
     for blobindex in range(len(allCroppedImages)):
-        sprintf(filename, "%d_%d.jpg", classname, blobindex+1)
+        filename = "%s_%d.jpg" % (classname, blobindex+1)
         image = np.uint8(allCroppedImages[blobindex])
-        #imwrite(filename, image)
+        cv2.imwrite(path+filename, image)
 
     return 0
