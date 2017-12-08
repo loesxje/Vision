@@ -67,15 +67,16 @@ print "Total Blobs = " + str(totalBlobs)
 # OUT:
 #   contourImage is the image with the contours
 #   contourVec is a vector with the coordinates of the contours
+
 [contourImage, contourVec] = avl.makeContourImage(binaryImage) 
-contourImage = contourImage + labeledImage*2
+contourBlob = contourImage + labeledImage*2
 
 if showImages:            
-    avl.show16SImageStretch(contourImage, "show Contour")
+    avl.show16SImageStretch(contourBlob, "show Contour")
     cv2.destroyAllWindows()
 
 boBos = bobo.allBoundingBoxes(contourVec)
 bigBoBo = bobo.biggestBoundingBox(boBos)
-boxPoints = bobo.getCoordinatesAllBoundingBoxes(boBos,bigBoBo, img)
+boxPoints = bobo.getCoordinatesAllBoundingBoxes(boBos,bigBoBo, img, showImages)
 
-
+fillContour = avl.contourFourConnected(contourImage, labeledImage)

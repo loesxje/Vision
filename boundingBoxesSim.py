@@ -61,6 +61,7 @@ def getCoordinatesAllBoundingBoxes(allBoBo, biggestBoBo, image, doPlot = 1):
     middle = []
 
     for i in range(len(allBoBo)):
+        
         maxRow = allBoBo[i][1][0]
         minRow = allBoBo[i][0][0]
 
