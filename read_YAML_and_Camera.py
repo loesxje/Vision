@@ -23,7 +23,9 @@ while(True):
     cv2. imshow('frame', gray)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+cv2.imwrite("frameSaveTest.jpg", gray)
 
 # When everything is done, release the capture
 cap.release()
+
 cv2.destroyAllWindows

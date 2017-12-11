@@ -8,6 +8,7 @@ from skimage import measure
 import numpy as np
 import cv2
 import avansvisionlib as avl
+import avansvisionlibBPN as BPN
 import sys
 import boundingBoxesSim as bobo
 
@@ -15,8 +16,8 @@ import boundingBoxesSim as bobo
 showImages = False
 doGauss = True
 doClose = True
-doCrop = True
-doWrite = True
+doCrop = False
+doWrite = False
 # =============================================================================
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
@@ -86,3 +87,7 @@ if doCrop:
 if doWrite:
     bobo.saveCroppedImages(filename, crops, imageWD)
 
+[ITset, OTset] = BPN.loadTrainingSet1()
+[ITset, OTset] = BPN.loadBinaryTrainingSet1()
+V0 = BPN.initializeBPN(2,3,4)
+print V0
