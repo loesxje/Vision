@@ -87,7 +87,10 @@ if doCrop:
 if doWrite:
     bobo.saveCroppedImages(filename, crops, imageWD)
 
+# --------------------------------------------- BPN --------------------------------
 [ITset, OTset] = BPN.loadTrainingSet1()
 [ITset, OTset] = BPN.loadBinaryTrainingSet1()
-V0 = BPN.initializeBPN(2,3,4)
-print avl.setValue([[3,3],[2,4]],0)
+[V0, W0, dV0, dW0] = BPN.initializeBPN(2,3,4)
+[IT, OT, V0, W0, dV0, dW0] = BPN.testBPN()
+OH = BPN.calculateOutputHiddenLayer(IT[0],V0)
+OO = BPN.calculateOutputBPN(OH, W0)
