@@ -47,7 +47,6 @@ def initializeBPN(inputNeurons, hiddenNeurons, outputNeurons):
     W0.resize(hiddenNeurons, outputNeurons)
 
     # Initial modification of the weightfactors
-    dV0 = 
 
     return V0
 
