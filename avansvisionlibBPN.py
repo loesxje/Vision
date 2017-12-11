@@ -129,3 +129,54 @@ def calculateOutputBPNError(OO, OT):
     return outputError
 
 
+def adaptVW(OT, OO, OH, OI, W0, dW0, V0, dV0, alpha, etha):
+    # adapt weightfactors W
+    # STEP 8:
+    OOerror = OT - OO
+
+    d = []
+    for row in range(OT.shape[0]):
+        di = (OT[row, 0] - OO[row, 0]) * OO[row, 0] * (1 - OO[row, 0])
+        d.append(di)
+    d.resize(OT.shape[0], 1)
+
+    dt = transpose(d)
+    Y = np.multiply(OH, dt)
+    Y.resize(OH.shape[0], OT.shape[0])
+
+    # STEP 9:
+    dW = alpha * dW0 + etha * Y
+    dW.resize(OH.shape[0], OT.shape[0])
+
+    # adapt weightfactors V
+    # STEP 10:
+    OHerror = W0 * d
+    OH.resize(OH.shape[0], 1)
+
+    # STEP 11:
+    for row in range(OH.shape[0]):
+        dStari = OHerror[row, 0] * OH[row, 0] * (1 - OH[row, 0])
+        dStar[row, 0] = dStari
+    dStar = np.array(dstar)
+    dStar.resize(OH.shape[0], 1)
+
+    # STEP 12:
+    dStarT = np.transpose(dStar)
+    X = OI * dStarT
+    X.resize(OI.shape[0], OH.shape[0])
+
+    # STEP 13
+    dV = alpha * dV0 + etha * X
+
+    # Update matrices with weightfactors
+    # STEP 14:
+    V = V0 + dV
+    V.resize(V0.shape[0], V0.shape[1])
+    W = W0 + dW
+    W.resize(W0.shape[0], W0.shape[1])
+    
+
+def BPN(II, V, W):
+    OH = calculateOutputHiddenLayer(II, V)
+    OO = calculateOutputBPN(OH, W)
+    return OO
