@@ -20,6 +20,7 @@ while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
     if not ret:
+        cap.release()
         raise ValueError("Failed to load frames")
     # Our operations on the frame come here
     grayImage = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
