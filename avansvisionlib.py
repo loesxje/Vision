@@ -8,8 +8,8 @@ def printMatrix(m):
         print m[jj,:]
 
 def setValue(m, value):
-    [row,col] = np.shape(m)
-    m = np.ones(row,col)*value
+    shapeM = np.shape(m)
+    m = np.ones(shapeM)*value
     return m
 
 def inproduct(A, B):

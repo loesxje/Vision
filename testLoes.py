@@ -90,4 +90,4 @@ if doWrite:
 [ITset, OTset] = BPN.loadTrainingSet1()
 [ITset, OTset] = BPN.loadBinaryTrainingSet1()
 V0 = BPN.initializeBPN(2,3,4)
-print V0
+print avl.setValue([[3,3],[2,4]],0)
