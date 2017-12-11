@@ -35,6 +35,10 @@ def loadBinaryTrainingSet1():
     return [ITset, OTset]
 
 def initializeBPN(inputNeurons, hiddenNeurons, outputNeurons):
+    inputNeurons = int(inputNeurons)
+    hiddenNeurons = int(hiddenNeurons)
+    outputNeurons = int(outputNeurons)
+
     # Set all weightfactors to a random value
     V0 = [np.random.random() for ii in range(inputNeurons) for jj in range(hiddenNeurons)]
     V0 = np.array(V0)
@@ -81,8 +85,8 @@ def calculateOutputHiddenLayer(input_inputLayer, weightfactorV):
     # STEP 2: initializing weights (already done)
 
     # STEP 3: calculate input_hiddenLayer
-    Vt = np.transpose(weightfactorV)
-    IH = np.multiply(Vt, OI)
+    #Vt = np.transpose(weightfactorV)
+    IH = np.multiply(weightfactorV, OI)
 
     # STEP 4: calculate output_hiddenLayer
     hiddenNeurons = weightfactorV.shape[1]
@@ -101,18 +105,27 @@ def calculateOutputBPN(OH, W):
 
     # STEP 6: calculate output_outputLayer
     outputNeurons = W.shape[1]
-    OO = np.array([])
-    OO.resize(outputNeurons, 1)
+    OO = []
     for row in range(outputNeurons):
         value = 1 / (1 + np.exp(- IO[row, 0]))
-        OO[row, 0] = value
+        OO.append(value)
+    OO = np.array(OO)
+    OO.resize(outputNeurons, 1)
 
     return OO
 
 def calculateOutputBPNError(OO, OT):
     # STEP 7: calculate the error
-    sumSqrErr, diff = 0
+    sumSqrErr = 0
+    diff = 0
     for row in range(OT.shape[0]):
-        
+        een =  OT[row, 0]
+        twee = OO[row, 0]
+        diff = 1
+        # diff = OT[row, 0] - OO[row, 0]
+        sumSqrErr += (diff * diff)
+    outputError = 0.5 * sumSqrErr
+
+    return outputError
 
 
