@@ -21,6 +21,7 @@ while(True):
     ret, frame = cap.read()
     if not ret:
         cap.release()
+        cv2.destroyAllWindows()
         raise ValueError("Failed to load frames")
     # Our operations on the frame come here
     grayImage = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -30,7 +31,7 @@ while(True):
     if key == 32:
         break
 
-cv2.imwrite("frameSaveTest.jpg", grayImage)
+cv2.imwrite("C:/VisionPlaatje/CameraCaps/frameSaveTest.jpg", grayImage)
 
 # When everything is done, release the capture
 cap.release()
