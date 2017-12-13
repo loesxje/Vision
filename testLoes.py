@@ -91,10 +91,13 @@ if doWrite:
 [ITset, OTset] = BPN.loadTrainingSet1()
 #[ITset, OTset] = BPN.loadBinaryTrainingSet1()
 [V0, W0, dV0, dW0] = BPN.initializeBPN(ITset.shape[1],3,OTset.shape[1])
-[IT, OT, V0, W0, dV0, dW0] = BPN.testBPN()
+#[IT, OT, V0, W0, dV0, dW0] = BPN.testBPN()
+
 OH = BPN.calculateOutputHiddenLayer(ITset[0],V0)
 OO = BPN.calculateOutputBPN(OH, W0)
 
-BPN.adaptVW(OT, OO, OH, OI, W0, dW0, V0, dV0)
+
+
+#BPN.adaptVW(OT, OO, OH, OI, W0, dW0, V0, dV0)
 
 #Error = BPN.calculateOutputBPNError(OO, OT)
