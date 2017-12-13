@@ -2,8 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c7a728d-9378-4cba-85c4-c9ec40f9be61" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CPP/BACO_3077864_636454041992853510_5635090.pdf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CPP/code bij Fase 3.rar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CPP/code bij Fase 3/BPN.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CPP/code bij Fase 3/avansvisionlib20.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CPP/code bij Fase 3/avansvisionlib20.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CPP/code bij Fase 3/perceptron.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testBPN.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frameSaveTest.jpg" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/avansvisionlibBPN.py" afterPath="$PROJECT_DIR$/avansvisionlibBPN.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testLoes.py" afterPath="$PROJECT_DIR$/testLoes.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/read_YAML_and_Camera.py" afterPath="$PROJECT_DIR$/read_YAML_and_Camera.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -49,8 +57,8 @@
       <file leaf-file-name="avansvisionlibBPN.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/avansvisionlibBPN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
+            <state relative-caret-position="438">
+              <caret line="127" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="207" selection-end-column="13" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -283,7 +291,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41204438" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.60761344" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1727672" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -327,12 +335,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/avansvisionlibBPN.py</url>
-          <line>107</line>
+          <line>123</line>
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/avansvisionlibBPN.py</url>
-          <line>115</line>
+          <line>137</line>
           <option name="timeStamp" value="54" />
         </line-breakpoint>
       </breakpoints>
@@ -647,8 +655,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/avansvisionlibBPN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
+        <state relative-caret-position="438">
+          <caret line="127" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="207" selection-end-column="13" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
