@@ -93,6 +93,7 @@ if doWrite:
 [V0, W0, dV0, dW0] = BPN.initializeBPN(ITset.shape[1],3,OTset.shape[1])
 #[IT, OT, V0, W0, dV0, dW0] = BPN.testBPN()
 
+
 OH = BPN.calculateOutputHiddenLayer(ITset[0],V0)
 OO = BPN.calculateOutputBPN(OH, W0)
 

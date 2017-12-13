@@ -85,28 +85,30 @@ def calculateOutputHiddenLayer(input_inputLayer, weightfactorV):
     # STEP 2: initializing weights (already done)
 
     # STEP 3: calculate input_hiddenLayer
-    Vt = np.transpose(weightfactorV)
-    IH = np.multiply(Vt, OI)
+    #Vt = np.transpose(weightfactorV)
+    IH = np.dot(weightfactorV, OI)
+    print IH
     # STEP 4: calculate output_hiddenLayer
-    hiddenNeurons = weightfactorV.shape[1]
-    OH = np.array([])
-    OH.resize(hiddenNeurons, 1)
+    hiddenNeurons = weightfactorV.shape[0]
+    # OH = np.array([])
+    # OH.resize(hiddenNeurons, 1)
+    OH = np.zeros(hiddenNeurons)
     for row in range(hiddenNeurons):
-        value = 1 / (1 + np.exp(-IH[row, 0]))
-        OH[row, 0] = value
+        value = 1 / (1 + np.exp(-IH[row]))
+        OH[row] = value
 
     return OH
 
 def calculateOutputBPN(OH, W):
     # STEP 5: calculate input_outputLayer
-    Wt = np.transpose(W)
-    IO = np.multiply(Wt, OH)
+    #Wt = np.transpose(W)
+    IO = np.dot(W, OH)
 
     # STEP 6: calculate output_outputLayer
     outputNeurons = W.shape[1]
     OO = []
     for row in range(outputNeurons):
-        value = 1 / (1 + np.exp(- IO[row, 0]))
+        value = 1 / (1 + np.exp(- IO[row]))
         OO.append(value)
     OO = np.array(OO)
     OO.resize(outputNeurons, 1)
@@ -139,8 +141,8 @@ def adaptVW(OT, OO, OH, OI, W0, dW0, V0, dV0, alpha, etha):
         d.append(di)
     d.resize(OT.shape[0], 1)
 
-    dt = transpose(d)
-    Y = np.multiply(OH, dt)
+    dt = np.transpose(d)
+    Y = np.dot(OH, dt)
     Y.resize(OH.shape[0], OT.shape[0])
 
     # STEP 9:
