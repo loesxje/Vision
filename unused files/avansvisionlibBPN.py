@@ -88,7 +88,6 @@ def calculateOutputHiddenLayer(input_inputLayer, weightfactorV):
     # STEP 2: initializing weights (already done)
 
     # STEP 3: calculate input_hiddenLayer
-<<<<<<< HEAD
     #Vt = np.transpose(weightfactorV)
     IH = np.dot(weightfactorV, OI)
     print IH
@@ -96,15 +95,8 @@ def calculateOutputHiddenLayer(input_inputLayer, weightfactorV):
     hiddenNeurons = weightfactorV.shape[0]
     # OH = np.array([])
     # OH.resize(hiddenNeurons, 1)
-    OH = np.zeros(hiddenNeurons)
-=======
-#    Vt = np.transpose(weightfactorV)
-    IH = np.dot(weightfactorV, OI)
+    OH = np.zeros([hiddenNeurons,1])
 
-    # STEP 4: calculate output_hiddenLayer
-    hiddenNeurons = weightfactorV.shape[1]
-    OH = np.zeros([hiddenNeurons, 1])
->>>>>>> 8a71149c2e4f2e92c0561f0b28feb01839cf4b57
     for row in range(hiddenNeurons):
         value = 1 / (1 + np.exp(-IH[row]))
         OH[row] = value
@@ -113,27 +105,16 @@ def calculateOutputHiddenLayer(input_inputLayer, weightfactorV):
 
 def calculateOutputBPN(OH, W):
     # STEP 5: calculate input_outputLayer
-<<<<<<< HEAD
-    #Wt = np.transpose(W)
-=======
+
 #    Wt = np.transpose(W)
->>>>>>> 8a71149c2e4f2e92c0561f0b28feb01839cf4b57
     IO = np.dot(W, OH)
 
     # STEP 6: calculate output_outputLayer
     outputNeurons = W.shape[1]
     OO =  np.zeros([outputNeurons, 1])
     for row in range(outputNeurons):
-<<<<<<< HEAD
-        value = 1 / (1 + np.exp(- IO[row]))
-        OO.append(value)
-    OO = np.array(OO)
-    OO.resize(outputNeurons, 1)
-=======
         value = 1 / (1 + np.exp(- IO[row, 0]))
         OO[row, 0] = value
-
->>>>>>> 8a71149c2e4f2e92c0561f0b28feb01839cf4b57
 
     return OO
 
@@ -163,12 +144,9 @@ def adaptVW(OT, OO, OH, OI, W0, dW0, V0, dV0, ALPHA = 1, ETA = 0.6):
         d.append(di)
     d.resize(OT.shape[0], 1)
 
-    dt = np.transpose(d)
-<<<<<<< HEAD
+    #dt = np.transpose(d)
     Y = np.dot(OH, dt)
-=======
-    Y = np.multiply(OH, dt)
->>>>>>> 8a71149c2e4f2e92c0561f0b28feb01839cf4b57
+
     Y.resize(OH.shape[0], OT.shape[0])
 
     # STEP 9:
@@ -200,6 +178,7 @@ def adaptVW(OT, OO, OH, OI, W0, dW0, V0, dV0, ALPHA = 1, ETA = 0.6):
     V.resize(V0.shape[0], V0.shape[1])
     W = W0 + dW
     W.resize(W0.shape[0], W0.shape[1])
+	return [V, W]
     
 
 def BPN(II, V, W):
