@@ -13,11 +13,13 @@ if doCallibrate:
         except yaml.YAMLError as exc:
             print(exc)
 
+
+
 # read camera images
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 print cap.isOpened()
 for ii in range(10):
-    
+
     while(True):
         # Capture frame-by-frame
         ret, frame = cap.read()
@@ -32,15 +34,15 @@ for ii in range(10):
         key = cv2.waitKey(1) # Break when spacebar is pressed
         if key == 32:
             break
-    
-    name = raw_input("train or test? ") 
-    if name == "train":
-        number = raw_input("What number?" )
-        cv2.imwrite("C:/VisionPlaatje/CameraCaps/{}{}.jpg".format(name, number), grayImage)
-    elif name == "stop":
-        break        
-    else:
-        cv2.imwrite("C:/VisionPlaatje/CameraCaps/{}.jpg".format(name), grayImage)
+
+    # name = raw_input("train or test? ")
+    # if name == "train":
+    #     number = raw_input("What number?" )
+    #     cv2.imwrite("C:/VisionPlaatje/CameraCaps/{}{}.jpg".format(name, number), grayImage)
+    # elif name == "stop":
+    #     break
+    # else:
+    #     cv2.imwrite("C:/VisionPlaatje/CameraCaps/{}.jpg".format(name), grayImage)
 
 # When everything is done, release the capture
 cap.release()
