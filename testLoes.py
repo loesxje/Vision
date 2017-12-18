@@ -7,22 +7,20 @@ ipython = get_ipython()
 from skimage import measure
 import numpy as np
 import cv2
-import avansvisionlib as avl
-import avansvisionlibBPN as BPN
+import avansvisionlibSim as avl
 import sys
 import boundingBoxesSim as bobo
+import extractFeaturesLoes as eFL
 
 # =============================================================================
 showImages = False
 doGauss = True
 doClose = True
-doCrop = False
-doWrite = False
 # =============================================================================
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
 imageWD = 'C:\Visionplaatje\\'
-filename = 'drie.jpg'
+filename = 'nul_1.png'
 # =============================================================================
 
 # lOAD IMAGE
@@ -45,11 +43,11 @@ if showImages:
 grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # Pre process the image
-binaryImage = cv2.threshold(grayImage, 145, 1, cv2.THRESH_BINARY_INV)[1]
+binaryImage = cv2.threshold(grayImage, 160, 1, cv2.THRESH_BINARY_INV)[1]
 if doGauss:
     binaryImage = cv2.GaussianBlur(binaryImage, (17, 17), 0.)
 if doClose:
-    binaryImage = cv2.morphologyEx(binaryImage, cv2.MORPH_CLOSE, kernel=np.ones([3, 3]))
+    binaryImage = cv2.morphologyEx(binaryImage, cv2.MORPH_CLOSE, kernel=np.ones([5, 5]))
 
 if showImages:
     avl.show16SImageStretch(binaryImage, "Binary Image")
@@ -67,12 +65,7 @@ if showImages:
 
 print "Total Blobs = " + str(totalBlobs)
 
-# retrieve BLOBs contours
-# OUT:
-#   contourImage is the image with the contours
-#   contourVec is a vector with the coordinates of the contours
 [contourImage, contourVec] = avl.makeContourImage(binaryImage)
-contourImage = contourImage + labeledImage * 2
 
 if showImages:
     avl.show16SImageStretch(contourImage, "show Contour")
@@ -82,23 +75,15 @@ boBos = bobo.allBoundingBoxes(contourVec)
 bigBoBo = bobo.biggestBoundingBox(boBos)
 boxPoints = bobo.getCoordinatesAllBoundingBoxes(boBos, bigBoBo, img, showImages)
 
-if doCrop:
-    crops = bobo.cropBoundingBoxes(boxPoints, grayImage)
-if doWrite:
-    bobo.saveCroppedImages(filename, crops, imageWD)
-
-# --------------------------------------------- BPN --------------------------------
-[ITset, OTset] = BPN.loadTrainingSet1()
-#[ITset, OTset] = BPN.loadBinaryTrainingSet1()
-[V0, W0, dV0, dW0] = BPN.initializeBPN(ITset.shape[1],3,OTset.shape[1])
-#[IT, OT, V0, W0, dV0, dW0] = BPN.testBPN()
+fillContour = avl.contourFourConnected(contourImage, labeledImage)
 
 
-OH = BPN.calculateOutputHiddenLayer(ITset[0],V0)
-OO = BPN.calculateOutputBPN(OH, W0)
+# ------------------------------------------------ test eFL -------------------------------------------
+perimeter = eFL.extractFeaturePerimeter(binaryImage)
+area = eFL.extractFeatureArea(binaryImage)
+NrHoles = eFL.extractFeatureNumberOfHoles(binaryImage)
+circularity = eFL.extractFeatureCircularity(perimeter, area)
+print perimeter, circularity
 
 
 
-#BPN.adaptVW(OT, OO, OH, OI, W0, dW0, V0, dV0)
-
-#Error = BPN.calculateOutputBPNError(OO, OT)
