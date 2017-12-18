@@ -17,11 +17,27 @@ def allBoundingBoxes(contourvector):
         #calc min_x & min_y from the contour of every Blob
         #calc max_x & max_y from the contour of every Blob
     bbs = []
-
+    
+    
     for i in range(len(contourvector)):
-        bbox = BoundingBox(contourvector[i])
-        minCor = (bbox._min[0], bbox._min[1]) #tuple(minRow, minCol)
-        maxCor = (bbox._max[0], bbox._max[1]) #tuple(maxRow, maxCol)
+        allRow = []
+        allCol = []
+        blobContour = contourvector[i]
+        for rowColIndex in range(len(blobContour)):
+            allRow.append(blobContour[rowColIndex][0])
+            allCol.append(blobContour[rowColIndex][1])
+        
+        minRow = np.min(allRow)
+        maxRow = max(allRow)
+        
+        minCol = min(allCol)
+        maxCol = max(allCol)
+        minCor = (minRow, minCol)
+        maxCor = (maxRow, maxCol)
+# =============================================================================
+#         minCor = (bbox._min[0], bbox._min[1]) #tuple(minRow, minCol)
+#         maxCor = (bbox._max[0], bbox._max[1]) #tuple(maxRow, maxCol)
+# =============================================================================
         bbs.append([minCor, maxCor])
     return bbs
 
