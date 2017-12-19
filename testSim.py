@@ -9,7 +9,7 @@ import cv2
 import avansvisionlib as avl
 import sys
 import TESTSIMboundingBoxes as bobo
-
+import retrieveFeaturesSim as retFeat
 # =============================================================================
 showImages = True
 doGauss = True
@@ -19,8 +19,8 @@ doContrast = True
 # =============================================================================
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
-imageWD = 'C:\Visionplaatje\\numbers\\'
-filename = 'numbersTest.bmp'
+imageWD = 'C:\Visionplaatje\\numbers\\train\\'
+filename = 'eight_1.jpg'
 # =============================================================================
 
 # lOAD IMAGE
@@ -50,52 +50,56 @@ if doContrast:
     cdf_m = (cdf_m - cdf_m.min())*255/(cdf_m.max()-cdf_m.min())
     cdf = np.ma.filled(cdf_m,0).astype('uint8')
     grayImage = cdf[grayImage]
-
-if showImages:
-    # Show original image
-    cv2.imshow("Gray Image", grayImage)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    
-# Pre process the image
-binaryImage = cv2.threshold(grayImage, 160, 1, cv2.THRESH_BINARY_INV)[1]
-if doGauss:
-    binaryImage = cv2.GaussianBlur(binaryImage, (5,5), 0.)
-if doClose:
-    binaryImage = cv2.morphologyEx(binaryImage, cv2.MORPH_CLOSE, kernel = np.ones([5,5]))
-if doThicken:
-    binaryImage = cv2.dilate(binaryImage, (5,5), 4)
-
-
-if showImages:
-    avl.show16SImageStretch(binaryImage, "Binary Image")
-    cv2.destroyAllWindows()
-  
-# label BLOBs and determine the number of blobs
-labeledImage = measure.label(binaryImage, background=0)
-totalBlobs = np.max(labeledImage)
-labeledImage = np.uint8(labeledImage) #convert to uint8. Otherwise the picture
-# can't be shown
-
-if showImages:
-    avl.show16SImageStretch(labeledImage, "show Blobs")
-    cv2.destroyAllWindows()
-
-print "Total Blobs = " + str(totalBlobs)
-
-# retrieve BLOBs contours
-# OUT:
-#   contourImage is the image with the contours
-#   contourVec is a vector with the coordinates of the contours
-
-[aantal, contourImage, contourVec] = avl.allContours(binaryImage) 
-
-if showImages:            
-    avl.show16SImageStretch(contourImage, "show Contour")
-    cv2.destroyAllWindows()
-
-boBos = bobo.allBoundingBoxes(contourVec)
-bigBoBo = bobo.biggestBoundingBox(boBos)
-boxPoints = bobo.getCoordinatesAllBoundingBoxes(boBos, bigBoBo, img, showImages)
-
-fillContour = avl.contourFourConnected(contourImage, labeledImage)
+[hogImage, hogVector] = retFeat.retrieveHOG(grayImage, True)
+# =============================================================================
+# 
+# if showImages:
+#     # Show original image
+#     cv2.imshow("Gray Image", grayImage)
+#     cv2.waitKey(0)
+#     cv2.destroyAllWindows()
+#     
+# # Pre process the image
+# binaryImage = cv2.threshold(grayImage, 160, 1, cv2.THRESH_BINARY_INV)[1]
+# if doGauss:
+#     binaryImage = cv2.GaussianBlur(binaryImage, (5,5), 0.)
+# if doClose:
+#     binaryImage = cv2.morphologyEx(binaryImage, cv2.MORPH_CLOSE, kernel = np.ones([5,5]))
+# if doThicken:
+#     binaryImage = cv2.dilate(binaryImage, (5,5), 4)
+# 
+# 
+# if showImages:
+#     avl.show16SImageStretch(binaryImage, "Binary Image")
+#     cv2.destroyAllWindows()
+#   
+# # label BLOBs and determine the number of blobs
+# labeledImage = measure.label(binaryImage, background=0)
+# totalBlobs = np.max(labeledImage)
+# labeledImage = np.uint8(labeledImage) #convert to uint8. Otherwise the picture
+# # can't be shown
+# 
+# if showImages:
+#     avl.show16SImageStretch(labeledImage, "show Blobs")
+#     cv2.destroyAllWindows()
+# 
+# print "Total Blobs = " + str(totalBlobs)
+# 
+# # retrieve BLOBs contours
+# # OUT:
+# #   contourImage is the image with the contours
+# #   contourVec is a vector with the coordinates of the contours
+# 
+# [aantal, contourImage, contourVec] = avl.allContours(binaryImage) 
+# 
+# if showImages:            
+#     avl.show16SImageStretch(contourImage, "show Contour")
+#     cv2.destroyAllWindows()
+# 
+# boBos = bobo.allBoundingBoxes(contourVec)
+# bigBoBo = bobo.biggestBoundingBox(boBos)
+# boxPoints = bobo.getCoordinatesAllBoundingBoxes(boBos, bigBoBo, img, showImages)
+# 
+# fillContour = avl.contourFourConnected(contourImage, labeledImage)
+# 
+# =============================================================================

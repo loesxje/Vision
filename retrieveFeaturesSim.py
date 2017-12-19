@@ -9,8 +9,10 @@ def retrieveHOG(inputMatrix, doPlot = False):
                     cells_per_block=(1, 1), visualise=True)
     
     hogVector = np.zeros((hogImage.size, 1))
-    nCols = hogImage.shape[0]
-    nRows = hogImage.shape[1]
+    nRows = hogImage.shape[0]
+    nCols = hogImage.shape[1]
+    
+    
     index = 0
     for cols in range(nCols):
         for rows in range(nRows):
