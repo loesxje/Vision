@@ -53,7 +53,7 @@ for file in os.listdir(imageWD): # +folder
         outputError0 = MAX_OUTPUT_ERROR + 1
         outputError1 = MAX_OUTPUT_ERROR + 1
         sumSqrDiffError = MAX_OUTPUT_ERROR + 1
-        # looping over mapjes eenen,tweeen drieen, vieren, vijfen, zessen enz
+        # looping over mapjes ones, twos, threes, fours, fives, sixes, etc
         # Voor elke feature worden de weights bepaald
         #Afvragen hoe het zit met deze vectoren
         #TODO: De gewichten worden of, elke keer geinitialiseerd, of de gewichten volstaan daarna voor de training.

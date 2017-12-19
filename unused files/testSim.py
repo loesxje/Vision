@@ -14,6 +14,8 @@ import boundingBoxesSim as bobo
 showImages = True
 doGauss = True
 doClose = True
+doCrop = False
+doWrite = False
 # =============================================================================
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
@@ -78,4 +80,7 @@ boBos = bobo.allBoundingBoxes(contourVec)
 bigBoBo = bobo.biggestBoundingBox(boBos)
 boxPoints = bobo.getCoordinatesAllBoundingBoxes(boBos, bigBoBo, img, showImages)
 
-fillContour = avl.contourFourConnected(contourImage, labeledImage)
+#fillContour = avl.contourFourConnected(contourImage, labeledImage)
+
+if doCrop:
+    crops = bobo.
