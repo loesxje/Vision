@@ -67,9 +67,12 @@ def biggestBoundingBox(boundingBoxesVector):
 def getCoordinatesAllBoundingBoxes(allBoBo, biggestBoBo, image, doPlot = 1):
     #start in the middle of the Blob
     middle = []
-
+    
+    rangeRows = [0] # initial number for iteration. This will be deleted in the
+    rangeCols = [0] # first try
+    
     for i in range(len(allBoBo)):
-        
+        notFound = False
         maxRow = allBoBo[i][1][0]
         minRow = allBoBo[i][0][0]
 
@@ -78,11 +81,32 @@ def getCoordinatesAllBoundingBoxes(allBoBo, biggestBoBo, image, doPlot = 1):
         
         midRow = (((maxRow - minRow) / 2) + minRow)
         midCol = (((maxCol - minCol) / 2) + minCol)
-        middle.append([midRow, midCol])
+        tempRangeRow = range(int(np.floor(midRow))-10, int(np.ceil(midRow))+10)
+        tempRangeCol = range(int(np.floor(midCol))-10, int(np.ceil(midCol))+10)
 
+        for elem in range(len(rangeRows)):
+            if i == 0:
+                rangeRows.pop() #remove initial number
+                rangeCols.pop()
+                rangeRows.append(tempRangeRow)
+                rangeCols.append(tempRangeCol)
+                middle.append([midRow, midCol])
+                break
+            elif int(np.floor(midRow)) in rangeRows[elem] and int(np.floor(midCol)) in rangeCols[elem]:
+                notFound = False
+                break
+            else:
+                notFound = True
+                
+        if notFound:
+            rangeRows.append(tempRangeRow)
+            rangeCols.append(tempRangeCol)
+            middle.append([midRow, midCol])
+            
+            
     #find boxpoints per blob that exist within the imagesize
     boxPoints = []
-    for i in range(len(allBoBo)):
+    for i in range(len(middle)):
         startRow= int(np.ceil(middle[i][0] - 0.5 * biggestBoBo[0]))
         endRow = int(np.ceil(middle[i][0] + 0.5 * biggestBoBo[0]))
 

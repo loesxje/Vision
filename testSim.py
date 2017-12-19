@@ -15,11 +15,12 @@ showImages = True
 doGauss = True
 doClose = True
 doThicken = True
+doContrast = True
 # =============================================================================
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
-imageWD = 'C:\Visionplaatje\\'
-filename = 'drie.jpg'
+imageWD = 'C:\Visionplaatje\\numbers\\'
+filename = 'zero.bmp'
 # =============================================================================
 
 # lOAD IMAGE
@@ -41,14 +42,30 @@ if showImages:
 # Convert original to grayscale
 grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
+if doContrast:
+    hist,bins = np.histogram(grayImage.flatten(),256,[0,256])
+    cdf = hist.cumsum()
+    cdf_normalized = cdf * hist.max()/ cdf.max()
+    cdf_m = np.ma.masked_equal(cdf,0)
+    cdf_m = (cdf_m - cdf_m.min())*255/(cdf_m.max()-cdf_m.min())
+    cdf = np.ma.filled(cdf_m,0).astype('uint8')
+    grayImage = cdf[grayImage]
+
+if showImages:
+    # Show original image
+    cv2.imshow("Gray Image", grayImage)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    
 # Pre process the image
-binaryImage = cv2.threshold(grayImage, 100, 1, cv2.THRESH_BINARY_INV)[1]
+binaryImage = cv2.threshold(grayImage, 160, 1, cv2.THRESH_BINARY_INV)[1]
 if doGauss:
     binaryImage = cv2.GaussianBlur(binaryImage, (5,5), 0.)
 if doClose:
     binaryImage = cv2.morphologyEx(binaryImage, cv2.MORPH_CLOSE, kernel = np.ones([5,5]))
 if doThicken:
     binaryImage = cv2.dilate(binaryImage, (5,5), 4)
+
 
 if showImages:
     avl.show16SImageStretch(binaryImage, "Binary Image")
