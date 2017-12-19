@@ -27,7 +27,7 @@ def allBoundingBoxes(contourvector):
             allRow.append(blobContour[rowColIndex][0])
             allCol.append(blobContour[rowColIndex][1])
         
-        minRow = np.min(allRow)
+        minRow = min(allRow)
         maxRow = max(allRow)
         
         minCol = min(allCol)
