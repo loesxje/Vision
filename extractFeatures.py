@@ -4,6 +4,10 @@ import cv2
 # from IPython import get_ipython
 # ipython = get_ipython()
 from skimage import measure
+import os
+import matplotlib.pyplot as plt
+from skimage.feature import hog
+from skimage import exposure
 
 
 def extractFeaturePerimeter(binaryImage):
@@ -40,21 +44,43 @@ def extractFeatureNumberOfHoles(binaryImage):
 
     NumberOfHoles = NumberOfContours - NumberOfBlobs
 
-    return NumberOfHoles
+    if NumberOfHoles == 0:
+        return 0
+    else:
+        return (1 / NumberOfHoles)
 
 
 def extractFeatureCircularity(perimeter, area):
     # (4pi*Area)/(Perimeter)
-    circularity = (4*np.pi*area) / (perimeter**2)
+    circularity = (perimeter**2)/(4*np.pi*(area))
 
     return circularity
 
+def retrieveHOG(inputMatrix, doPlot=False):
+    image = inputMatrix.copy()
+    fd, hogImage = hog(image, orientations=8, pixels_per_cell=(16, 16),
+                       cells_per_block=(1, 1), visualise=True)
+
+    hogVector = [0]*hogImage.size
+    nRows = hogImage.shape[0]
+    nCols = hogImage.shape[1]
+
+    index = 0
+    for cols in range(nCols):
+        for rows in range(nRows):
+            hogVector[index] = hogImage[rows][cols]
+            index += 1
+
+    return hogVector
+
+
 def extractFeatures(binaryImage):
-    perimeter = extractFeaturePerimeter(binaryImage)
-    area = extractFeatureArea(binaryImage)
-    nrHoles = extractFeatureNumberOfHoles(binaryImage)
-    circularity = extractFeatureCircularity(perimeter, area)
-    IT = [1, perimeter, area, nrHoles, circularity]
+    #perimeter = extractFeaturePerimeter(binaryImage)
+    #area = extractFeatureArea(binaryImage)
+    #nrHoles = extractFeatureNumberOfHoles(binaryImage)
+    hogVector = retrieveHOG(binaryImage, doPlot=False)
+    IT = [1]
+    IT.extend(hogVector)
     return IT
 
 def outputHandwrittenNumbers(filename):
@@ -78,8 +104,44 @@ def outputHandwrittenNumbers(filename):
     elif "eight" in filename:
         OT = [1,0,0,0]
     elif "nine" in filename:
-        OT = [1,0,0,1]
+        OT = [1, 0, 0, 1]
     else:
-        raise valueError("Could not correctly classify object.")
-
+        print("Could not correctly classify object.")
     return OT
+
+def outputToNumber(OO):
+    if OO == [0,0,0,0]: numberRecognized = 0
+    elif OO == [0,0,0,1]: numberRecognized = 1
+    elif OO == [0,0,1,0]: numberRecognized = 2
+    elif OO == [0,0,1,1]: numberRecognized = 3
+    elif OO == [0,1,0,0]: numberRecognized = 4
+    elif OO == [0,1,0,1]: numberRecognized = 5
+    elif OO == [0,1,1,0]: numberRecognized = 6
+    elif OO == [0,1,1,1]: numberRecognized = 7
+    elif OO == [1,0,0,0]: numberRecognized = 8
+    elif OO == [1,0,0,1]: numberRecognized = 9
+    else:
+        print("Could not correctly classify object.")
+
+    return numberRecognized
+
+def makeBinaryImage(path):
+    image = cv2.imread(path)
+    grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    binaryImage = cv2.threshold(grayImage, 140, 1, cv2.THRESH_BINARY_INV)[1]
+    return binaryImage
+
+def memoriseLargest(imageWD):
+    perimeterMax = 0
+    areaMax = 0
+    for file in os.listdir(imageWD):
+        if file != ".DS_Store":
+            binaryImage = makeBinaryImage(imageWD + file)
+            featureArray = np.array(extractFeatures(binaryImage,1,1))
+            perimeterCurrent = featureArray[1]
+            areaCurrent = featureArray[2]
+            if perimeterCurrent > perimeterMax:
+                perimeterMax = perimeterCurrent
+            if areaCurrent > areaMax:
+                areaMax = areaCurrent
+    return perimeterMax, areaMax
