@@ -75,9 +75,11 @@ def retrieveHOG(inputMatrix, doPlot=False):
 
 
 def extractFeatures(binaryImage):
-    #perimeter = extractFeaturePerimeter(binaryImage)
-    #area = extractFeatureArea(binaryImage)
-    #nrHoles = extractFeatureNumberOfHoles(binaryImage)
+# =============================================================================
+#     perimeter = extractFeaturePerimeter(binaryImage)
+#     area = extractFeatureArea(binaryImage)
+#     nrHoles = extractFeatureNumberOfHoles(binaryImage)
+# =============================================================================
     hogVector = retrieveHOG(binaryImage, doPlot=False)
     IT = [1]
     IT.extend(hogVector)

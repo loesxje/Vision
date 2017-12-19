@@ -96,12 +96,24 @@ def initializeBPN(inputNeurons, hiddenNeurons, outputNeurons):
     W0.resize(outputNeurons, hiddenNeurons)
 
     # Initial modification of the weightfactors
-    dV0 = [[None for row in range(inputNeurons)] for col in range(hiddenNeurons)]
-    dW0 = [[None for row in range(hiddenNeurons)] for col in range(outputNeurons)]
-
-    dV0 = avl.setValue(dV0, 0)
-    dW0 = avl.setValue(dW0, 0)
-
+#    dV0 = np.array([[None for row in range(inputNeurons)] for col in range(hiddenNeurons)])
+#    dW0 = np.array([[None for row in range(hiddenNeurons)] for col in range(outputNeurons)])
+    dV0 = np.zeros((hiddenNeurons, inputNeurons))
+    dW0 = np.zeros((outputNeurons, hiddenNeurons))
+    
+    for rowIteration in range(hiddenNeurons):
+        for colIteration in range(inputNeurons):
+            if colIteration == 0:
+                dV0[rowIteration][colIteration] = 0
+            else:
+                dV0[rowIteration][colIteration] = V0[rowIteration][colIteration]-V0[rowIteration][colIteration-1]
+    
+    for rowIteration in range(outputNeurons):
+        for colIteration in range(hiddenNeurons):
+            if colIteration == 0:
+                dW0[rowIteration][colIteration] = 0
+            else:
+                dW0[rowIteration][colIteration] = W0[rowIteration][colIteration]-W0[rowIteration][colIteration-1]            
     return V0, W0, dV0, dW0
 
 
@@ -192,8 +204,8 @@ def calculateOutputBPNError(OO, OT):
 def adaptVW(OT, OO, OH, OI, W0, dW0, V0, dV0):
     # adapt weightfactors W
     # STEP 8:
-    ALPHA = 1
-    ETHA = 0.6
+    ALPHA = 0.3
+    ETHA = -0.5
     nrOutPutTrSet = OT.shape[0]
     OT = np.array(OT)
     OT.resize(nrOutPutTrSet,1)
@@ -250,7 +262,7 @@ def adaptVW(OT, OO, OH, OI, W0, dW0, V0, dV0):
     V = V0 + dV
     W = W0 + dW
 
-    return V, W
+    return V, W, dV, dW
 
 
 def BPN(II, V, W):

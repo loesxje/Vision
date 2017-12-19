@@ -26,7 +26,7 @@ def testHandwrittenNumbers(imageWD, V0, W0):
         binaryImage = cv2.threshold(grayImage, 140, 1, cv2.THRESH_BINARY_INV)[1]
         IT = np.array(ef.extractFeatures(binaryImage))
         OO = np.array(BPN.BPN(IT,V0,W0))
-        OO = np.round(np.round(OO,1))
+        #OO = np.round(np.round(OO,1))
         print(OO)
 
 # def confusionMatrix(imageWDTest, OO):

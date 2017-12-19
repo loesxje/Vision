@@ -39,15 +39,15 @@ def trainHandwrittenNumbers(imageWD):
 
     #perimeterMax, areaMax = ef.memoriseLargest(imageWD)
     counter = 0
-
+    totalImg = len(imageCodes)
     # Haal de afbeeldingen uit de map.
-    for i in range(len(imageCodes)):
+    for i in range(totalImg):
         # TODO: random aanpassen
         counter += 1
-        print(counter)
+        print("image {} out of {}".format(counter, totalImg))
         indexnummer = np.random.randint(len(imageCodes))
         filename = imageCodes.pop(indexnummer)
-        print(filename)
+        print("load image {}".format(filename))
         binaryImage = ef.makeBinaryImage(imageWD + filename)
 
         runs = 0
@@ -55,21 +55,26 @@ def trainHandwrittenNumbers(imageWD):
         sumSqrDiffError = MAX_OUTPUT_ERROR + 1
         # looping over afbeeldingen met eenen,tweeen drieen, vieren, vijfen, zessen enz
         # Voor elke feature worden de weights bepaald
-
+        
+        # bepaal de input en output van de traindata
+        IT = np.array(ef.extractFeatures(binaryImage))
+        OT = np.array(ef.outputHandwrittenNumbers(filename))
+        
         while ((sumSqrDiffError > MAX_OUTPUT_ERROR) & (runs < MAXRUNS)):
             sumSqrDiffError = 0
             #     for inputSetRowNr in range(ITset.shape[0]):  # Afbeeldingen in de map
             # for inputSetRowNr in range(binaryImage.shape[0]):
-            IT = np.array(ef.extractFeatures(binaryImage))
-            OT = np.array(ef.outputHandwrittenNumbers(filename))
+
             OH = BPN.calculateOutputHiddenLayer(IT, V0)
             OO = BPN.calculateOutputBPN(OH, W0)
-            [V1, W1] = BPN.adaptVW(OT, OO, OH, IT, W0, dW0, V0, dV0)
+            [V1, W1, dV1, dW1] = BPN.adaptVW(OT, OO, OH, IT, W0, dW0, V0, dV0)
             outputError0 = BPN.calculateOutputBPNError(OO, OT)
             outputError1 = BPN.calculateOutputBPNError(BPN.BPN(IT, V1, W1), OT)
             sumSqrDiffError += (outputError1 - outputError0) * (outputError1 - outputError0)
             V0 = V1
             W0 = W1
+            dV0 = dV1
+            dW0 = dW1
             #print("sumSqrDiffError = " + str(sumSqrDiffError))
             runs += 1
         print("Runs = " + str(runs))
