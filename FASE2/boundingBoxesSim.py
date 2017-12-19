@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-from planar import BoundingBox
 
 
 #Make bounding boxes
