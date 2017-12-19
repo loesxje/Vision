@@ -23,6 +23,7 @@ for file in os.listdir(imageWD): #+folder
     if file != ".DS_Store":
         numberOfInputs = len(os.listdir(imageWD))
 
+#TODO: HARDCODED?
 numberOfFeatures = 5
 numberOfOutputs = 4
 
@@ -37,46 +38,49 @@ print("Initialize BPN... ")
 V0, W0, dV0, dW0 = BPN.initializeBPN(numberOfFeatures, hiddenNeurons, numberOfOutputs)
 inputList = []
 outputList = []
+imageCodes = []
 
 #Haal de afbeeldingen uit de map.
-# for folder in os.listdir(imageWD):
-#     print(folder)
 for file in os.listdir(imageWD): # +folder
     if file != ".DS_Store":
-        image = cv2.imread(imageWD + file)
-        grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        blurredImage = cv2.GaussianBlur(grayImage, (5, 5), 0)
-        binaryImage = cv2.threshold(blurredImage, 140, 1, cv2.THRESH_BINARY_INV)[1]
+        imageCodes.append(file)
+        print(imageCodes)
+        for i in range(len(imageCodes)):
+            indexnummer = np.random.randint(len(imageCodes))
+            filename = imageCodes.pop(indexnummer)
+            print(filename)
+            image = cv2.imread(imageWD + filename)
+            grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            #TODO: is de Gaussian Blur nog nodig?
+            blurredImage = cv2.GaussianBlur(grayImage, (5, 5), 0)
+            binaryImage = cv2.threshold(blurredImage, 140, 1, cv2.THRESH_BINARY_INV)[1]
 
-        runs = 0
+            runs = 0
 
-        outputError0 = MAX_OUTPUT_ERROR + 1
-        outputError1 = MAX_OUTPUT_ERROR + 1
-        sumSqrDiffError = MAX_OUTPUT_ERROR + 1
-        # looping over mapjes ones, twos, threes, fours, fives, sixes, etc
-        # Voor elke feature worden de weights bepaald
-        #Afvragen hoe het zit met deze vectoren
-        #TODO: De gewichten worden of, elke keer geinitialiseerd, of de gewichten volstaan daarna voor de training.
-        #V0, W0, dV0, dW0 = BPN.initializeBPN(numberOfFeatures, hiddenNeurons, numberOfOutputs)
+            outputError0 = MAX_OUTPUT_ERROR + 1
+            outputError1 = MAX_OUTPUT_ERROR + 1
+            sumSqrDiffError = MAX_OUTPUT_ERROR + 1
+            # looping over afbeeldingen met eenen,tweeen drieen, vieren, vijfen, zessen enz
+            # Voor elke feature worden de weights bepaald
 
-        while ((sumSqrDiffError > MAX_OUTPUT_ERROR) & (runs < MAXRUNS)):
-            sumSqrDiffError = 0
-        #     for inputSetRowNr in range(ITset.shape[0]):  # Afbeeldingen in de map
-            #for inputSetRowNr in range(binaryImage.shape[0]):
-            IT = np.array(ef.extractFeatures(binaryImage))
-            OT = np.array(ef.outputHandwrittenNumbers(file))
-            OH = BPN.calculateOutputHiddenLayer(IT, V0)
-            OO = BPN.calculateOutputBPN(OH, W0)
-            [V1, W1] = BPN.adaptVW(OT, OO, OH, IT, W0, dW0, V0, dV0)
-            outputError0 = BPN.calculateOutputBPNError(OO, OT)
-            outputError1 = BPN.calculateOutputBPNError(BPN.BPN(IT, V1, W1), OT)
-            sumSqrDiffError += (outputError1 - outputError0) * (outputError1 - outputError0)
-            V0 = V1
-            W0 = W1
-            print("sumSqrDiffError = " + str(sumSqrDiffError))
-            runs += 1
-        inputList.append([IT])
-        outputList.append([OT])
+            while ((sumSqrDiffError > MAX_OUTPUT_ERROR) & (runs < MAXRUNS)):
+                sumSqrDiffError = 0
+            #     for inputSetRowNr in range(ITset.shape[0]):  # Afbeeldingen in de map
+                #for inputSetRowNr in range(binaryImage.shape[0]):
+                IT = np.array(ef.extractFeatures(binaryImage))
+                OT = np.array(ef.outputHandwrittenNumbers(file))
+                OH = BPN.calculateOutputHiddenLayer(IT, V0)
+                OO = BPN.calculateOutputBPN(OH, W0)
+                [V1, W1] = BPN.adaptVW(OT, OO, OH, IT, W0, dW0, V0, dV0)
+                outputError0 = BPN.calculateOutputBPNError(OO, OT)
+                outputError1 = BPN.calculateOutputBPNError(BPN.BPN(IT, V1, W1), OT)
+                sumSqrDiffError += (outputError1 - outputError0) * (outputError1 - outputError0)
+                V0 = V1
+                W0 = W1
+                print("sumSqrDiffError = " + str(sumSqrDiffError))
+                runs += 1
+            inputList.append([IT])
+            outputList.append([OT])
         #
 #Print de output
 # outputVectorBPN = OTset.copy()
