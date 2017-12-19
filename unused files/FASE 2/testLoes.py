@@ -10,10 +10,10 @@ import cv2
 import avansvisionlib as avl
 import sys
 import boundingBoxesSim as bobo
-import cropBoundingBoxesLoes as crop
 
 # =============================================================================
 showImages = False
+doContrast = True
 doGauss = True
 doClose = True
 doCrop = True
@@ -22,7 +22,7 @@ doWrite = True
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
 imageWD = 'C:\Visionplaatje\\'
-filename = 'drie.jpg'
+filename = 'one.bmp'
 # =============================================================================
 
 # lOAD IMAGE
@@ -43,6 +43,16 @@ if showImages:
 
 # Convert original to grayscale
 grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# Pre process the image, making more contrast
+if doContrast:
+    hist,bins = np.histogram(grayImage.flatten(),256,[0,256])
+    cdf = hist.cumsum()
+    cdf_normalized = cdf * hist.max()/ cdf.max()
+    cdf_m = np.ma.masked_equal(cdf,0)
+    cdf_m = (cdf_m - cdf_m.min())*255/(cdf_m.max()-cdf_m.min())
+    cdf = np.ma.filled(cdf_m,0).astype('uint8')
+    grayImage = cdf[grayImage]
 
 # Pre process the image
 binaryImage = cv2.threshold(grayImage, 145, 1, cv2.THRESH_BINARY_INV)[1]

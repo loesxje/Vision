@@ -77,7 +77,9 @@ def outputHandwrittenNumbers(filename):
         OT = [0,1,1,1]
     elif "eight" in filename:
         OT = [1,0,0,0]
-    else:
+    elif "nine" in filename:
         OT = [1,0,0,1]
+    else:
+        raise valueError("Could not correctly classify object.")
 
     return OT
