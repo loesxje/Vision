@@ -18,8 +18,8 @@ def testHandwrittenNumbers(imageWD, V0, W0):
     perimeterMax, areaMax = ef.memoriseLargest(imageWD)
 
     for i in range(len(imageCodes)):
-        indexnummer = np.random.randint(len(imageCodes))
-        filename = imageCodes.pop(indexnummer)
+        
+        filename = imageCodes.pop(0)
         print(filename)
         image = cv2.imread(imageWD + filename)
         grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

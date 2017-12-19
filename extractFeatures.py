@@ -58,7 +58,7 @@ def extractFeatureCircularity(perimeter, area):
 
 def retrieveHOG(inputMatrix, doPlot=False):
     image = inputMatrix.copy()
-    fd, hogImage = hog(image, orientations=8, pixels_per_cell=(16, 16),
+    fd, hogImage = hog(image, orientations=8, pixels_per_cell=(96/14, 96/14),
                        cells_per_block=(1, 1), visualise=True)
 
     hogVector = [0]*hogImage.size
@@ -137,7 +137,7 @@ def memoriseLargest(imageWD):
     for file in os.listdir(imageWD):
         if file != ".DS_Store":
             binaryImage = makeBinaryImage(imageWD + file)
-            featureArray = np.array(extractFeatures(binaryImage,1,1))
+            featureArray = np.array(extractFeatures(binaryImage))
             perimeterCurrent = featureArray[1]
             areaCurrent = featureArray[2]
             if perimeterCurrent > perimeterMax:

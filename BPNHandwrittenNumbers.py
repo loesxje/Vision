@@ -3,8 +3,8 @@ import testProgram as testp
 import extractFeatures as ef
 
 # =================== GEEF HIER HET BIJBEHORENDE PAD OP =======================
-imageWDTrain = '/Users/Eva/Workspace_programs/PycharmProjects/Vision-master/Pictures/train//'
-imageWDTest = '/Users/Eva/Workspace_programs/PycharmProjects/Vision-master/Pictures/test//'
+imageWDTrain = 'C://VisionPlaatje//trainSmall//'
+imageWDTest = 'C://VisionPlaatje//testSmall//'
 # =============================================================================
 
 (V0,W0) = trainp.trainHandwrittenNumbers(imageWDTrain)

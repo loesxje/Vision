@@ -5,12 +5,12 @@ import avansvisionlib as avl
 
 import os
 
-testOrTrain = "train" + "Old"
+testOrTrain = "test" 
 
 imageWD = 'C:\Visionplaatje\\numbers\\{}\\'.format(testOrTrain)
 
-maxRow = 94
-maxCol = 88
+maxRow = 96
+maxCol = 96
 
 #Haal de afbeeldingen uit de map.
 for file in os.listdir(imageWD): # +folder
