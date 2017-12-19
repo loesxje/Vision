@@ -8,13 +8,13 @@ import numpy as np
 import cv2
 import avansvisionlib as avl
 import sys
-import TESTSIMboundingBoxes as bobo
+import allContours as AC
 
 # =============================================================================
 showImages = True
-doGauss = True
-doClose = True
-doThicken = True
+doGauss = False
+doClose = False
+doThicken = False
 doContrast = True
 # =============================================================================
 
@@ -88,14 +88,7 @@ print "Total Blobs = " + str(totalBlobs)
 #   contourImage is the image with the contours
 #   contourVec is a vector with the coordinates of the contours
 
-[aantal, contourImage, contourVec] = avl.allContours(binaryImage) 
-
-if showImages:            
-    avl.show16SImageStretch(contourImage, "show Contour")
-    cv2.destroyAllWindows()
-
-boBos = bobo.allBoundingBoxes(contourVec)
-bigBoBo = bobo.biggestBoundingBox(boBos)
-boxPoints = bobo.getCoordinatesAllBoundingBoxes(boBos, bigBoBo, img, showImages)
-
-fillContour = avl.contourFourConnected(contourImage, labeledImage)
+[aantal, contourImage, contourVec] = AC.allContours(labeledImage, totalBlobs)
+if showImages:
+    avl.show16SImageStretch(contourImage, "show contour")
+    cv2.destroyAllWindows() 
