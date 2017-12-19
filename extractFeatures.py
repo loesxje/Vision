@@ -59,23 +59,23 @@ def extractFeatures(binaryImage):
 
 def outputHandwrittenNumbers(filename):
     #filename = str(filename)
-    if "nul" in filename:
+    if "zero" in filename:
         OT = [0,0,0,0]
-    elif "een" in filename:
+    elif "one" in filename:
         OT = [0,0,0,1]
-    elif "twee" in filename:
+    elif "two" in filename:
         OT = [0,0,1,0]
-    elif "drie" in filename:
+    elif "three" in filename:
         OT = [0,0,1,1]
-    elif "vier" in filename:
+    elif "four" in filename:
         OT = [0,1,0,0]
-    elif "vijf" in filename:
+    elif "five" in filename:
         OT = [0,1,0,1]
-    elif "zes" in filename:
+    elif "six" in filename:
         OT = [0,1,1,0]
-    elif "zeven" in filename:
+    elif "seven" in filename:
         OT = [0,1,1,1]
-    elif "acht" in filename:
+    elif "eight" in filename:
         OT = [1,0,0,0]
     else:
         OT = [1,0,0,1]
