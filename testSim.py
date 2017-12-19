@@ -20,7 +20,7 @@ doContrast = True
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
 imageWD = 'C:\Visionplaatje\\numbers\\'
-filename = 'zero.bmp'
+filename = 'eight.bmp'
 # =============================================================================
 
 # lOAD IMAGE

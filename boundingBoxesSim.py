@@ -79,10 +79,13 @@ def getCoordinatesAllBoundingBoxes(allBoBo, biggestBoBo, image, doPlot = 1):
         maxCol = allBoBo[i][1][1]
         minCol = allBoBo[i][0][1]
         
+        width = int(np.ceil((maxRow-minRow)))
+        height = int(np.ceil((maxCol-minCol)))
+        
         midRow = (((maxRow - minRow) / 2) + minRow)
         midCol = (((maxCol - minCol) / 2) + minCol)
-        tempRangeRow = range(int(np.floor(midRow))-10, int(np.ceil(midRow))+10)
-        tempRangeCol = range(int(np.floor(midCol))-10, int(np.ceil(midCol))+10)
+        tempRangeRow = range(int(np.floor(midRow))-width, int(np.ceil(midRow))+height)
+        tempRangeCol = range(int(np.floor(midCol))-width, int(np.ceil(midCol))+height)
 
         for elem in range(len(rangeRows)):
             if i == 0:
