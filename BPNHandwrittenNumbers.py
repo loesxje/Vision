@@ -23,6 +23,7 @@ for file in os.listdir(imageWD): #+folder
     if file != ".DS_Store":
         numberOfInputs = len(os.listdir(imageWD))
 
+#TODO: HARDCODED?
 numberOfFeatures = 5
 numberOfOutputs = 4
 
@@ -50,6 +51,7 @@ for file in os.listdir(imageWD): # +folder
             print(filename)
             image = cv2.imread(imageWD + filename)
             grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            #TODO: is de Gaussian Blur nog nodig?
             blurredImage = cv2.GaussianBlur(grayImage, (5, 5), 0)
             binaryImage = cv2.threshold(blurredImage, 140, 1, cv2.THRESH_BINARY_INV)[1]
 
