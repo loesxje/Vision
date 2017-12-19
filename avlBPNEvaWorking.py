@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-import avansvisionlibSim as avl
+import avansvisionlib as avl
 
 # // TRAININGSET:  I0 because of bias V0
 # //

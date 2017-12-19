@@ -22,7 +22,7 @@ doWrite = True
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
 imageWD = 'C:\Visionplaatje\\'
-filename = 'seven.bmp'
+filename = 'four.bmp'
 # =============================================================================
 
 # lOAD IMAGE
