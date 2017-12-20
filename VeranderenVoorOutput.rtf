@@ -80,23 +80,37 @@ De gehele definitie confusionMatrix\
     \cf7 \cb3 print\cf5 \cb3 (confusionMatrix(OOlist))\
 \
 \
-\cf2 def \cf4 \cb3 confusionMatrix\cf5 \cb3 (OOlist):\
+\cf2 def \cf4 \cb3 confusionMatrix\cf5 \cb3 (OOlist\cf2 , \cf5 filenameList):\
     numberOutput = []\
     \cf2 for \cf5 i \cf2 in \cf7 \cb3 range\cf5 \cb3 (\cf7 \cb3 len\cf5 \cb3 (OOlist)):\
         OOnumber = ef.outputToNumber(OOlist[i])\
         numberOutput.append(OOnumber)\
 \
+    combinedList = []\
+    \cf2 for \cf5 i \cf2 in \cf7 \cb3 range\cf5 \cb3 (\cf7 \cb3 len\cf5 \cb3 (filenameList)):\
+        combinedList.append([filenameList[i]\cf2 , \cf5 numberOutput[i]])\
+\
+    filenameList.sort(\cf10 \cb3 key\cf5 \cb3 =\cf2 lambda \cf5 var: [\cf7 \cb3 int\cf5 \cb3 (x) \cf2 if \cf5 x.isdigit() \cf2 else \cf5 x \cf2 for \cf5 x \cf2 in \cf5 re.findall(\cf8 \cb3 r'[^0-9]|[0-9]+'\cf2 \cb3 , \cf5 var)])\
+\
+    newCombinedList = []\
+    outputTest = []\
+    \cf2 for \cf5 files \cf2 in \cf5 filenameList:\
+        \cf2 for \cf5 i \cf2 in \cf7 \cb3 range\cf5 \cb3 (\cf7 \cb3 len\cf5 \cb3 (filenameList)):\
+            \cf2 if \cf5 files == combinedList[i][\cf6 0\cf5 ]:\
+                newCombinedList.append(combinedList[i])\
+                outputTest.append(combinedList[i][\cf6 1\cf5 ])\
+\
     \cf9 #realOutput = ["five", "nine", "one", "four", "two", "six", "three", "one", "nine", "eight","seven", "five", "nine", "three", "three", "five", "six", "two", "three", "two", "six", "four", "eight", "four", "eight", "three", "five", "two", "nine", "three", "three", "seven", "zero", two", "nine" "eight", "eight", "four", "seven", "one"] #alle 20 de images\
     \cf5 realOutput = [\cf6 5\cf2 ,\cf6 9\cf2 ,\cf6 1\cf2 ,\cf6 4\cf2 ,\cf6 2\cf2 ,\cf6 6\cf2 ,\cf6 3\cf2 ,\cf6 1\cf2 ,\cf6 9\cf2 ,\cf6 8\cf5 ]\
 \
-    confusionMat = np.zeros((\cf7 \cb3 len\cf5 \cb3 (numberOutput)\cf2 ,\cf7 \cb3 len\cf5 \cb3 (realOutput)))\
+    confusionMat = np.zeros((\cf7 \cb3 len\cf5 \cb3 (outputTest)\cf2 ,\cf7 \cb3 len\cf5 \cb3 (realOutput)))\
 \
     \cf2 for \cf5 i \cf2 in \cf7 \cb3 range\cf5 \cb3 (\cf7 \cb3 len\cf5 \cb3 (realOutput)):\
-        confusionMat[realOutput[i]\cf2 ,\cf5 numberOutput[i]] += \cf6 1\
+        confusionMat[realOutput[i]\cf2 ,\cf5 outputTest[i]] += \cf6 1\
 \
     \cf5 accuracy = []\
     confusionDiagonal = confusionMat.diagonal()\
-    \cf2 for \cf5 i \cf2 in \cf7 \cb3 range\cf5 \cb3 (\cf7 \cb3 len\cf5 \cb3 (numberOutput)):\
+    \cf2 for \cf5 i \cf2 in \cf7 \cb3 range\cf5 \cb3 (\cf7 \cb3 len\cf5 \cb3 (outputTest)):\
         \cf2 if \cf7 \cb3 sum\cf5 \cb3 (confusionMat[i]) == \cf6 0\cf5 :\
             accuracyPerRow = \cf6 0\
         \cf2 else\cf5 :\
@@ -106,7 +120,7 @@ De gehele definitie confusionMatrix\
     confusiondf = pd.DataFrame(confusionMat)\
     accuracydf = pd.DataFrame(accuracy)\
     accuracydf.columns = [\cf8 \cb3 "Accuracy"\cf5 \cb3 ]\
-    confusiondf[accuracydf.columns] = accuracydf\cf8 \cb3 \
+    confusiondf[accuracydf.columns] = accuracydf\
 \
-    \cf2 \cb3 return \cf5 confusiondf\
+    \cf2 return \cf5 confusiondf\
 }
