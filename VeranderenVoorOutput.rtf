@@ -1,0 +1,113 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red191\green100\blue38;\red32\green32\blue32;\red254\green187\blue91;
+\red153\green168\blue186;\red86\green132\blue173;\red117\green114\blue185;\red88\green118\blue71;\red109\green109\blue109;
+\red152\green54\blue29;}
+{\*\expandedcolortbl;\csgray\c100000;\csgenericrgb\c74902\c39216\c14902;\csgenericrgb\c12549\c12549\c12549;\csgenericrgb\c99608\c73333\c35686;
+\csgenericrgb\c60000\c65882\c72941;\csgenericrgb\c33725\c51765\c67843;\csgenericrgb\c45882\c44706\c72549;\csgenericrgb\c34510\c46275\c27843;\csgenericrgb\c42745\c42745\c42745;
+\csgenericrgb\c59608\c21176\c11373;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh14480\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Veranderen:\
+\
+In ExtractFeatures.py:\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1 \cf2 \cb3 def \cf4 \cb3 outputToNumber\cf5 \cb3 (OO):\
+    OO.resize(\cf6 1\cf2 ,\cf7 \cb3 len\cf5 \cb3 (OO))\
+    \cf2 if \cf5 (\cf7 \cb3 sum\cf5 \cb3 (\cf7 \cb3 sum\cf5 \cb3 (OO == np.array([\cf6 0\cf2 ,\cf6 0\cf2 ,\cf6 0\cf2 ,\cf6 0\cf5 ])))) == \cf6 4\cf5 :\
+        numberRecognized = \cf6 0\
+    \cf2 elif \cf5 (\cf7 \cb3 sum\cf5 \cb3 (\cf7 \cb3 sum\cf5 \cb3 (OO == np.array([\cf6 0\cf2 ,\cf6 0\cf2 ,\cf6 0\cf2 ,\cf6 1\cf5 ])))) == \cf6 4\cf5 :\
+        numberRecognized = \cf6 1\
+    \cf2 elif \cf5 (\cf7 \cb3 sum\cf5 \cb3 (\cf7 \cb3 sum\cf5 \cb3 (OO == np.array([\cf6 0\cf2 ,\cf6 0\cf2 ,\cf6 1\cf2 ,\cf6 0\cf5 ])))) == \cf6 4\cf5 :\
+        numberRecognized = \cf6 2\
+    \cf2 elif \cf5 (\cf7 \cb3 sum\cf5 \cb3 (\cf7 \cb3 sum\cf5 \cb3 (OO == np.array([\cf6 0\cf2 ,\cf6 0\cf2 ,\cf6 1\cf2 ,\cf6 1\cf5 ])))) == \cf6 4\cf5 :\
+        numberRecognized = \cf6 3\
+    \cf2 elif \cf5 (\cf7 \cb3 sum\cf5 \cb3 (\cf7 \cb3 sum\cf5 \cb3 (OO == np.array([\cf6 0\cf2 ,\cf6 1\cf2 ,\cf6 0\cf2 ,\cf6 0\cf5 ])))) == \cf6 4\cf5 :\
+        numberRecognized = \cf6 4\
+    \cf2 elif \cf5 (\cf7 \cb3 sum\cf5 \cb3 (\cf7 \cb3 sum\cf5 \cb3 (OO == np.array([\cf6 0\cf2 ,\cf6 1\cf2 ,\cf6 0\cf2 ,\cf6 1\cf5 ])))) == \cf6 4\cf5 :\
+        numberRecognized = \cf6 5\
+    \cf2 elif \cf5 (\cf7 \cb3 sum\cf5 \cb3 (\cf7 \cb3 sum\cf5 \cb3 (OO == np.array([\cf6 0\cf2 ,\cf6 1\cf2 ,\cf6 1\cf2 ,\cf6 0\cf5 ])))) == \cf6 4\cf5 :\
+        numberRecognized = \cf6 6\
+    \cf2 elif \cf5 (\cf7 \cb3 sum\cf5 \cb3 (\cf7 \cb3 sum\cf5 \cb3 (OO == np.array([\cf6 0\cf2 ,\cf6 1\cf2 ,\cf6 1\cf2 ,\cf6 1\cf5 ])))) == \cf6 4\cf5 :\
+        numberRecognized = \cf6 7\
+    \cf2 elif \cf5 (\cf7 \cb3 sum\cf5 \cb3 (\cf7 \cb3 sum\cf5 \cb3 (OO == np.array([\cf6 1\cf2 ,\cf6 0\cf2 ,\cf6 0\cf2 ,\cf6 0\cf5 ])))) == \cf6 4\cf5 :\
+        numberRecognized = \cf6 8\
+    \cf2 elif \cf5 (\cf7 \cb3 sum\cf5 \cb3 (\cf7 \cb3 sum\cf5 \cb3 (OO == np.array([\cf6 1\cf2 ,\cf6 0\cf2 ,\cf6 0\cf2 ,\cf6 1\cf5 ])))) == \cf6 4\cf5 :\
+        numberRecognized = \cf6 9\
+    \cf2 else\cf5 :\
+        \cf7 \cb3 print\cf5 \cb3 (\cf8 \cb3 "Could not correctly classify object."\cf5 \cb3 )\
+    \cf2 return \cf5 numberRecognized\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0 \cf0 \cb1 \
+Toevoegen:\
+In testProgramma.py:\
+aan het begin van testHandwrittenNumbers, om de imageCodes gesorteerd op nummer in te lezen (gaat nu van 1 naar 10 naar 11 ipv 1 2 3)\
+de line print(confusionMatrix) onderaan in testHandwrittenNumbers\
+De gehele definitie confusionMatrix\
+
+\f1 \cf2 \cb3 import \cf5 re\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf5 \
+\cf2 def \cf4 \cb3 testHandwrittenNumbers\cf5 \cb3 (imageWD\cf2 , \cf5 V0\cf2 , \cf5 W0):\
+    imageCodes = []\
+\
+    \cf2 for \cf5 file \cf2 in \cf5 os.listdir(imageWD):  \cf9 # +folder\
+        \cf2 if \cf5 file != \cf8 \cb3 ".DS_Store"\cf5 \cb3 :\
+            imageCodes.append(file)\
+\
+    imageCodes.sort(\cf10 \cb3 key\cf5 \cb3 =\cf2 lambda \cf5 var: [\cf7 \cb3 int\cf5 \cb3 (x) \cf2 if \cf5 x.isdigit() \cf2 else \cf5 x \cf2 for \cf5 x \cf2 in \cf5 re.findall(\cf8 \cb3 r'[^0-9]|[0-9]+'\cf2 \cb3 , \cf5 var)])\
+\
+    \cf7 \cb3 print\cf5 \cb3 (imageCodes)\
+\
+    perimeterMax\cf2 , \cf5 areaMax = ef.memoriseLargest(imageWD)\
+    OOlist = []\
+\
+    \cf2 for \cf5 i \cf2 in \cf7 \cb3 range\cf5 \cb3 (\cf7 \cb3 len\cf5 \cb3 (imageCodes)):\
+        indexnummer = np.random.randint(\cf7 \cb3 len\cf5 \cb3 (imageCodes))\
+        filename = imageCodes.pop(indexnummer)\
+        \cf7 \cb3 print\cf5 \cb3 (filename)\
+        image = cv2.imread(imageWD + filename)\
+        grayImage = cv2.cvtColor(image\cf2 , \cf5 cv2.COLOR_BGR2GRAY)\
+        binaryImage = cv2.threshold(grayImage\cf2 , \cf6 140\cf2 , \cf6 1\cf2 , \cf5 cv2.THRESH_BINARY_INV)[\cf6 1\cf5 ]\
+        IT = np.array(ef.extractFeatures(binaryImage\cf2 ,\cf5 perimeterMax\cf2 , \cf5 areaMax))\
+        OO = np.array(BPN.BPN(IT\cf2 ,\cf5 V0\cf2 ,\cf5 W0))\
+        OO = np.round(np.round(OO\cf2 ,\cf6 1\cf5 ))\
+        OOlist.append(OO)\
+    \cf7 \cb3 print\cf5 \cb3 (confusionMatrix(OOlist))\
+\
+\
+\cf2 def \cf4 \cb3 confusionMatrix\cf5 \cb3 (OOlist):\
+    numberOutput = []\
+    \cf2 for \cf5 i \cf2 in \cf7 \cb3 range\cf5 \cb3 (\cf7 \cb3 len\cf5 \cb3 (OOlist)):\
+        OOnumber = ef.outputToNumber(OOlist[i])\
+        numberOutput.append(OOnumber)\
+\
+    \cf9 #realOutput = ["five", "nine", "one", "four", "two", "six", "three", "one", "nine", "eight","seven", "five", "nine", "three", "three", "five", "six", "two", "three", "two", "six", "four", "eight", "four", "eight", "three", "five", "two", "nine", "three", "three", "seven", "zero", two", "nine" "eight", "eight", "four", "seven", "one"] #alle 20 de images\
+    \cf5 realOutput = [\cf6 5\cf2 ,\cf6 9\cf2 ,\cf6 1\cf2 ,\cf6 4\cf2 ,\cf6 2\cf2 ,\cf6 6\cf2 ,\cf6 3\cf2 ,\cf6 1\cf2 ,\cf6 9\cf2 ,\cf6 8\cf5 ]\
+\
+    confusionMat = np.zeros((\cf7 \cb3 len\cf5 \cb3 (numberOutput)\cf2 ,\cf7 \cb3 len\cf5 \cb3 (realOutput)))\
+\
+    \cf2 for \cf5 i \cf2 in \cf7 \cb3 range\cf5 \cb3 (\cf7 \cb3 len\cf5 \cb3 (realOutput)):\
+        confusionMat[realOutput[i]\cf2 ,\cf5 numberOutput[i]] += \cf6 1\
+\
+    \cf5 accuracy = []\
+    confusionDiagonal = confusionMat.diagonal()\
+    \cf2 for \cf5 i \cf2 in \cf7 \cb3 range\cf5 \cb3 (\cf7 \cb3 len\cf5 \cb3 (numberOutput)):\
+        \cf2 if \cf7 \cb3 sum\cf5 \cb3 (confusionMat[i]) == \cf6 0\cf5 :\
+            accuracyPerRow = \cf6 0\
+        \cf2 else\cf5 :\
+            accuracyPerRow = confusionDiagonal[i]/(\cf7 \cb3 sum\cf5 \cb3 (confusionMat[i]))\
+        accuracy.append(accuracyPerRow)\
+\
+    confusiondf = pd.DataFrame(confusionMat)\
+    accuracydf = pd.DataFrame(accuracy)\
+    accuracydf.columns = [\cf8 \cb3 "Accuracy"\cf5 \cb3 ]\
+    confusiondf[accuracydf.columns] = accuracydf\
+    confusiondf.axes = \cf8 \cb3 ""\
+\
+    \cf2 \cb3 return \cf5 confusiondf\
+}
