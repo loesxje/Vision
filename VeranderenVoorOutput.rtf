@@ -106,8 +106,7 @@ De gehele definitie confusionMatrix\
     confusiondf = pd.DataFrame(confusionMat)\
     accuracydf = pd.DataFrame(accuracy)\
     accuracydf.columns = [\cf8 \cb3 "Accuracy"\cf5 \cb3 ]\
-    confusiondf[accuracydf.columns] = accuracydf\
-    confusiondf.axes = \cf8 \cb3 ""\
+    confusiondf[accuracydf.columns] = accuracydf\cf8 \cb3 \
 \
     \cf2 \cb3 return \cf5 confusiondf\
 }
