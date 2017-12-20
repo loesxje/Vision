@@ -25,6 +25,7 @@ def testHandwrittenNumbers(imageWD, V0, W0):
         grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         binaryImage = cv2.threshold(grayImage, 140, 1, cv2.THRESH_BINARY_INV)[1]
         IT = np.array(ef.extractFeatures(binaryImage))
+        
         OO = np.array(BPN.BPN(IT,V0,W0))
         #OO = np.round(np.round(OO,1))
         print(OO)

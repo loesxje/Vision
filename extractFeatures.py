@@ -64,7 +64,8 @@ def retrieveHOG(inputMatrix, doPlot=False):
     hogVector = [0]*hogImage.size
     nRows = hogImage.shape[0]
     nCols = hogImage.shape[1]
-
+    avl.show16SImageStretch(hogImage, "hog")
+    cv2.destroyAllWindows()
     index = 0
     for cols in range(nCols):
         for rows in range(nRows):
@@ -73,6 +74,16 @@ def retrieveHOG(inputMatrix, doPlot=False):
 
     return hogVector
 
+def pixelsOnly(binaryImage):
+    imgVector = [0]*binaryImage.size
+    nRows = binaryImage.shape[0]
+    nCols = binaryImage.shape[1]
+    index = 0
+    for cols in range(nCols):
+        for rows in range(nRows):
+            imgVector[index] = binaryImage[rows][cols]
+            index += 1
+    return imgVector
 
 def extractFeatures(binaryImage):
 # =============================================================================

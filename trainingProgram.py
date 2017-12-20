@@ -24,7 +24,7 @@ def trainHandwrittenNumbers(imageWD):
     # print(imageCodes)
     # avl.show16SImageStretch(image, "image")
 
-    numberOfFeatures = image.shape[0] * image.shape[1] + 1
+    numberOfFeatures = image.size + 1
     numberOfOutputs = 4
 
     print("\n Testset laden... \n \n")
@@ -59,6 +59,11 @@ def trainHandwrittenNumbers(imageWD):
         # bepaal de input en output van de traindata
         IT = np.array(ef.extractFeatures(binaryImage))
         OT = np.array(ef.outputHandwrittenNumbers(filename))
+        ITold = np.zeros(IT.shape)
+        print(np.sum(ITold-IT))
+        
+        ITold = IT
+        
         
         while ((sumSqrDiffError > MAX_OUTPUT_ERROR) & (runs < MAXRUNS)):
             sumSqrDiffError = 0
@@ -68,16 +73,22 @@ def trainHandwrittenNumbers(imageWD):
             OH = BPN.calculateOutputHiddenLayer(IT, V0)
             OO = BPN.calculateOutputBPN(OH, W0)
             [V1, W1, dV1, dW1] = BPN.adaptVW(OT, OO, OH, IT, W0, dW0, V0, dV0)
+            
+            #calculate model error
             outputError0 = BPN.calculateOutputBPNError(OO, OT)
             outputError1 = BPN.calculateOutputBPNError(BPN.BPN(IT, V1, W1), OT)
             sumSqrDiffError += (outputError1 - outputError0) * (outputError1 - outputError0)
+            
+            #save weights
             V0 = V1
             W0 = W1
             dV0 = dV1
             dW0 = dW1
+            
             #print("sumSqrDiffError = " + str(sumSqrDiffError))
             runs += 1
         print("Runs = " + str(runs))
+        print()
     # Print de output
     # outputVectorBPN = OTset.copy()
     # for inputSetRowNr in range(ITset.shape[0]):

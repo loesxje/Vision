@@ -100,20 +100,14 @@ def initializeBPN(inputNeurons, hiddenNeurons, outputNeurons):
 #    dW0 = np.array([[None for row in range(hiddenNeurons)] for col in range(outputNeurons)])
     dV0 = np.zeros((hiddenNeurons, inputNeurons))
     dW0 = np.zeros((outputNeurons, hiddenNeurons))
-    
+    vColRange = range(1, inputNeurons)
+    wColRange = range(1, hiddenNeurons)
     for rowIteration in range(hiddenNeurons):
-        for colIteration in range(inputNeurons):
-            if colIteration == 0:
-                dV0[rowIteration][colIteration] = 0
-            else:
-                dV0[rowIteration][colIteration] = V0[rowIteration][colIteration]-V0[rowIteration][colIteration-1]
-    
+        dV0[rowIteration][vColRange] = np.diff(V0[rowIteration])
+                
     for rowIteration in range(outputNeurons):
-        for colIteration in range(hiddenNeurons):
-            if colIteration == 0:
-                dW0[rowIteration][colIteration] = 0
-            else:
-                dW0[rowIteration][colIteration] = W0[rowIteration][colIteration]-W0[rowIteration][colIteration-1]            
+        dW0[rowIteration][wColRange] = np.diff(W0[rowIteration])
+                
     return V0, W0, dV0, dW0
 
 
@@ -199,30 +193,31 @@ def calculateOutputBPNError(OO, OT):
 #     newMatrix = np.array(newMatrix)
 #     newMatrix.resize(rowsMTMW,rowsFM)
 
-
+def transferDerivative(output):
+    return output*(1-output)
 
 def adaptVW(OT, OO, OH, OI, W0, dW0, V0, dV0):
     # adapt weightfactors W
     # STEP 8:
     ALPHA = 0.3
-    ETHA = -0.5
+    ETHA = 0.5
     nrOutPutTrSet = OT.shape[0]
     OT = np.array(OT)
     OT.resize(nrOutPutTrSet,1)
     OOerror = OT - OO
 
-    d = []
+    derivative = []
     for row in range(nrOutPutTrSet):
-        di = (OT[row, 0] - OO[row, 0]) * OO[row, 0] * (1 - OO[row, 0])
-        d.append(di)
-    d = np.array(d)
+        error = (OT[row, 0] - OO[row, 0]) * transferDerivative(OO[row, 0])
+        derivative.append(error)
+    D = np.array(derivative)
     #d.resize(nrOutPutTrSet, 1)
 
-    Y = [[0 for r in range(OH.shape[0])] for c in range(nrOutPutTrSet)]
+    Y = np.zeros((nrOutPutTrSet,OH.shape[0]))#[[0]*OH.shape[0]]*nrOutPutTrSet
     for j in range(nrOutPutTrSet):
         for i in range(OH.shape[0]):
-            entry = np.dot(OH[i],d[j])
-            Y[[j][0]][i] = entry
+            entry = np.dot(OH[i],D[j])
+            Y[j][i] = entry
     Y = np.array(Y)
     Y.resize(nrOutPutTrSet, OH.shape[0])
 
@@ -232,25 +227,26 @@ def adaptVW(OT, OO, OH, OI, W0, dW0, V0, dV0):
 
     # adapt weightfactors V
     # STEP 10:
-    OHerror = np.dot(W0.transpose(),d)
+    OHerror = np.dot(W0.transpose(),D) 
     OHerror.resize(OH.shape[0], 1)
 
     # STEP 11:
-    dStar = [0 for r in range(OH.shape[0])]
+    bpError = np.zeros((OH.shape[0],1))
     for row in range(OH.shape[0]):
-        dStari = OHerror[row, 0] * OH[row, 0] * (1 - OH[row, 0])
-        dStar[row] = dStari
-    dStar = np.array(dStar)
-    dStar.resize(OH.shape[0], 1)
+        dStari = OHerror[row, 0] * transferDerivative(OH[row, 0])
+        bpError[row] = dStari
+    bpError = np.array(bpError)
+    bpError.resize(OH.shape[0], 1)
 
     # STEP 12:
-    dStarT = np.transpose(dStar)
-    X = [[0 for r in range(OI.shape[0])] for c in range(OH.shape[0])]
+    bpErrorT = np.transpose(bpError)
+    X = np.zeros((OH.shape[0],OI.shape[0]))
+    
     for col in range(OH.shape[0]):
         for row in range(OI.shape[0]):
-            entrydStarT = np.dot(OI[row], dStarT[0][col])
-            X[[col][0]][row] = entrydStarT
-    # X = OI * dStarT
+            entrydStarT = np.dot(OI[row], bpErrorT[0][col])
+            X[col][row] = entrydStarT
+    # X = OI * bpError
     X = np.array(X)
     X.resize(OH.shape[0], OI.shape[0])
 
