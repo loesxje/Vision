@@ -123,20 +123,31 @@ def outputHandwrittenNumbers(filename):
         print("Could not correctly classify object.")
     return OT
 
+
 def outputToNumber(OO):
-    if OO == [0,0,0,0]: numberRecognized = 0
-    elif OO == [0,0,0,1]: numberRecognized = 1
-    elif OO == [0,0,1,0]: numberRecognized = 2
-    elif OO == [0,0,1,1]: numberRecognized = 3
-    elif OO == [0,1,0,0]: numberRecognized = 4
-    elif OO == [0,1,0,1]: numberRecognized = 5
-    elif OO == [0,1,1,0]: numberRecognized = 6
-    elif OO == [0,1,1,1]: numberRecognized = 7
-    elif OO == [1,0,0,0]: numberRecognized = 8
-    elif OO == [1,0,0,1]: numberRecognized = 9
+    OO.resize(1,len(OO))
+    if (sum(sum(OO == np.array([0,0,0,0])))) == 4:
+        numberRecognized = 0
+    elif (sum(sum(OO == np.array([0,0,0,1])))) == 4:
+        numberRecognized = 1
+    elif (sum(sum(OO == np.array([0,0,1,0])))) == 4:
+        numberRecognized = 2
+    elif (sum(sum(OO == np.array([0,0,1,1])))) == 4:
+        numberRecognized = 3
+    elif (sum(sum(OO == np.array([0,1,0,0])))) == 4:
+        numberRecognized = 4
+    elif (sum(sum(OO == np.array([0,1,0,1])))) == 4:
+        numberRecognized = 5
+    elif (sum(sum(OO == np.array([0,1,1,0])))) == 4:
+        numberRecognized = 6
+    elif (sum(sum(OO == np.array([0,1,1,1])))) == 4:
+        numberRecognized = 7
+    elif (sum(sum(OO == np.array([1,0,0,0])))) == 4:
+        numberRecognized = 8
+    elif (sum(sum(OO == np.array([1,0,0,1])))) == 4:
+        numberRecognized = 9
     else:
         print("Could not correctly classify object.")
-
     return numberRecognized
 
 def makeBinaryImage(path):

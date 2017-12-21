@@ -6,3 +6,5 @@ frameSaveTest.jpg
 avansvisionlib.pyc
 *.pyc
 BPNHandwrittenNumbers.py
+.idea/workspace.xml
+testProgram.py
