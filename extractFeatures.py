@@ -58,14 +58,15 @@ def extractFeatureCircularity(perimeter, area):
 
 def retrieveHOG(inputMatrix, doPlot=False):
     image = inputMatrix.copy()
-    fd, hogImage = hog(image, orientations=8, pixels_per_cell=(96/14, 96/14),
+    fd, hogImage = hog(image, orientations=8, pixels_per_cell=(3, 3),
                        cells_per_block=(1, 1), visualise=True)
 
     hogVector = [0]*hogImage.size
     nRows = hogImage.shape[0]
     nCols = hogImage.shape[1]
-    avl.show16SImageStretch(hogImage, "hog")
-    cv2.destroyAllWindows()
+    if doPlot:
+        avl.show16SImageStretch(hogImage, "hog")
+        cv2.destroyAllWindows()
     index = 0
     for cols in range(nCols):
         for rows in range(nRows):

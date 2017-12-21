@@ -87,11 +87,11 @@ def initializeBPN(inputNeurons, hiddenNeurons, outputNeurons):
     outputNeurons = int(outputNeurons)
 
     # Set all weightfactors to a random value
-    V0 = [np.random.random() for ii in range(hiddenNeurons) for jj in range(inputNeurons)]
+    V0 = [np.random.random()/10 for ii in range(hiddenNeurons) for jj in range(inputNeurons)]
     V0 = np.array(V0)
     V0.resize(hiddenNeurons, inputNeurons)
 
-    W0 = [np.random.random() for ii in range(outputNeurons) for jj in range(hiddenNeurons)]
+    W0 = [np.random.random()/10 for ii in range(outputNeurons) for jj in range(hiddenNeurons)]
     W0 = np.array(W0)
     W0.resize(outputNeurons, hiddenNeurons)
 

@@ -59,11 +59,7 @@ def trainHandwrittenNumbers(imageWD):
         # bepaal de input en output van de traindata
         IT = np.array(ef.extractFeatures(binaryImage))
         OT = np.array(ef.outputHandwrittenNumbers(filename))
-        ITold = np.zeros(IT.shape)
-        print(np.sum(ITold-IT))
-        
-        ITold = IT
-        
+        avgRuns = []
         
         while ((sumSqrDiffError > MAX_OUTPUT_ERROR) & (runs < MAXRUNS)):
             sumSqrDiffError = 0
@@ -88,7 +84,8 @@ def trainHandwrittenNumbers(imageWD):
             #print("sumSqrDiffError = " + str(sumSqrDiffError))
             runs += 1
         print("Runs = " + str(runs))
-        print()
+        avgRuns.append(runs)
+        print(" ")
     # Print de output
     # outputVectorBPN = OTset.copy()
     # for inputSetRowNr in range(ITset.shape[0]):
@@ -97,6 +94,7 @@ def trainHandwrittenNumbers(imageWD):
     #         outputVectorBPN[inputSetRowNr][inputSetColNr] = round(round(BPN.BPN(inputVectorTrainingSet, V0, W0)[inputSetColNr][0]), 1)
     #
     print("BPN Training is ready!")
+    print("Average number of runs: " + str(np.mean(avgRuns)))
     print(V0)
     print(W0)
     return V0, W0

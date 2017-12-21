@@ -21,7 +21,7 @@ doWrite = True
 # =============================================================================
 
 # ==============GEEF HIER JE PLAATJE EN BIJBEHORENDE PAD=======================
-imageWD = 'C:\Visionplaatje\\'
+imageWD = 'C:\Visionplaatje\\numbers\\'
 filename = 'numbersTest.bmp'
 # =============================================================================
 
@@ -95,5 +95,5 @@ boxPoints = bobo.getCoordinatesAllBoundingBoxes(boBos, bigBoBo, img, showImages)
 if doCrop:
     crops = bobo.cropBoundingBoxes(boxPoints, grayImage)
 if doWrite:
-    bobo.saveCroppedImages(filename, crops, imageWD)
+    bobo.saveCroppedImages(filename+str("test"), crops, imageWD)
 

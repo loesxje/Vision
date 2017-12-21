@@ -14,13 +14,13 @@ def testHandwrittenNumbers(imageWD, V0, W0):
             numberOfInputs = len(os.listdir(imageWD))
             imageCodes.append(file)
 
-    print(imageCodes)
+    #print(imageCodes)
     perimeterMax, areaMax = ef.memoriseLargest(imageWD)
-
+    results = {}
     for i in range(len(imageCodes)):
         
         filename = imageCodes.pop(0)
-        print(filename)
+        #print(filename)
         image = cv2.imread(imageWD + filename)
         grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         binaryImage = cv2.threshold(grayImage, 140, 1, cv2.THRESH_BINARY_INV)[1]
@@ -28,7 +28,8 @@ def testHandwrittenNumbers(imageWD, V0, W0):
         
         OO = np.array(BPN.BPN(IT,V0,W0))
         #OO = np.round(np.round(OO,1))
-        print(OO)
+        results[filename] = OO
+    return results
 
 # def confusionMatrix(imageWDTest, OO):
 #     realOutput = ["five"] #alle 20 de images
